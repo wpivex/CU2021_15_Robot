@@ -38,7 +38,7 @@ pros::Motor rightIndexer(8, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODE
 
 pros::ADIDigitalOut deploy('H');
 
-pros::ADIGyro gyro('G' ,true);
+pros::ADIGyro gyro('G' , 0.96);
 
 void initialize() {
 	pros::lcd::initialize();

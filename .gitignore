@@ -34,3 +34,4 @@
 #Custom ones
 *.vscode/**
 *bin/**
+include/.DS_Store
