@@ -1,5 +1,7 @@
 #include "main.h"
 #include "PID.hpp"
+#include "SlewRate.hpp"
+#include "odometry.hpp"
 //#include "opcontrol.hpp"
 
 //pros::ADIGyro gyro(1);
@@ -7,12 +9,23 @@
 PID drivePID;
 PID gyroPID;
 PID gyroDrivePID;
+PID odomDistancePID;
+PID odomTurningPID;
 
+SlewRate distanceControl;
+SlewRate turnControl;
+
+
+Odometry odom;
 
 void programmingSkills();
 
 void shoot3descore2();
 void shoot1descore1();
+void shoot2descore1();
+
+
+void odomTaskFn();
 
 void stop();
 void driveTarget(int target, float angle, int accuracy, int time, float max, bool slew);
@@ -30,18 +43,15 @@ void setIndexerSpeed(int power);
 void setConveyorSpeed(int power);
 void setIntakeSpeed(int power);
 void setupIntake();
+void intakeAllForward();
+void intakeAllBackward();
+
+float modulus(float a, float b);
 void auton();
-
-float slewRateCalculate (float desiredRate);
-
 
 void auxiliary();
 
 float idealHeading = 0;
 int aFlywheelTarget = 0;
-
-float lastSlewTime;
-float maxAccel = 0.17;
-float lastSlewRate;
 
 void move(void* param);

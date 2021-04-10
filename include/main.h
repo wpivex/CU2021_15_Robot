@@ -83,6 +83,11 @@ extern pros::Motor rightIndexer;
 
 extern pros::ADIGyro gyro;
 
+extern pros::ADIEncoder leftEncoder;
+extern pros::ADIEncoder rightEncoder;
+extern pros::ADIEncoder backEncoder;
+
+
 extern pros::ADIDigitalOut deploy;
 
 

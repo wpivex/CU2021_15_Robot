@@ -8,7 +8,7 @@ void opcontrol() {
 	deployed = true;
 
 	while (true) {
-		pros::lcd::print(0, "Angle: %f", gyro.get_value()/10.0);
+		pros::lcd::print(0, "Encoder: %d", rightEncoder.get_value());
 
 		double left = controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);
 		double right = -controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);
@@ -41,9 +41,9 @@ void handleIntakes() {
 		indexerPower = -40;
 	}
 	else if (controller.get_digital(DIGITAL_L2)) {
-		intakePower-=60;
-		conveyorPower-=60;
-		indexerPower-=60;
+		intakePower-=127;
+		conveyorPower-=127;
+		indexerPower-=127;
 	}
 
 	if (controller.get_digital(DIGITAL_R1)) {
