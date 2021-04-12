@@ -8,7 +8,10 @@ void opcontrol() {
 	deployed = true;
 
 	while (true) {
-		pros::lcd::print(0, "Encoder: %d", rightEncoder.get_value());
+		// pros::lcd::print(0, "Right Encoder: %d", rightEncoder.get_value());
+		// pros::lcd::print(1, "Left Encoder: %d", leftEncoder.get_value());
+		// pros::lcd::print(2, "Back Encoder: %d", backEncoder.get_value());
+
 
 		double left = controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);
 		double right = -controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);

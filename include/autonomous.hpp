@@ -19,11 +19,12 @@ SlewRate turnControl;
 Odometry odom;
 
 void programmingSkills();
+void odomProgrammingSkills();
 
 void shoot3descore2();
 void shoot1descore1();
 void shoot2descore1();
-
+void shoot2descore2();
 
 void odomTaskFn();
 
@@ -48,6 +49,7 @@ void intakeAllBackward();
 
 float modulus(float a, float b);
 void auton();
+void MoveToPosition(float x, float y, int maxTime);
 
 void auxiliary();
 

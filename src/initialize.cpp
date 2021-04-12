@@ -36,9 +36,9 @@ pros::Motor rightIntake(16, pros::E_MOTOR_GEARSET_06, true,pros::E_MOTOR_ENCODER
 pros::Motor leftIndexer(4, pros::E_MOTOR_GEARSET_06, false, pros::E_MOTOR_ENCODER_DEGREES);
 pros::Motor rightIndexer(8, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODER_DEGREES);
 
-pros::ADIEncoder rightEncoder('E', 'F', false);
+pros::ADIEncoder rightEncoder('E', 'F', true);
 pros::ADIEncoder leftEncoder('C', 'D', false);
-pros::ADIEncoder backEncoder('A', 'B', false);
+pros::ADIEncoder backEncoder('A', 'B', true);
 
 
 

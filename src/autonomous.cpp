@@ -22,9 +22,15 @@ void autonomous() {
 	drivePID = pidInit (0.34, 0, 0.4, 0, 100.0,5,15);
 	gyroDrivePID = pidInit(0.7, 0, 0.4, 0, 40,999999,9999999);
 	gyroPID = pidInit(1.62,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+//                        	P    I  D  idk idk idk idk
+//	odomDistancePID = pidInit (0, 0, 0, 0, 100.0,0.1,0.5);
 
-	distanceControl = slewRateInit(0.25);
-	turnControl = slewRateInit(0.25);
+	odomDistancePID = pidInit (6, 0, 0.9, 0, 100.0,0.1,0.5);
+//	odomTurningPID = pidInit (0,  0, 0, 0, 10,99999,999999);
+	odomTurningPID = pidInit(2,  0, 0, 0, 10,99999,999999);
+
+	distanceControl = slewRateInit(0.22);
+	turnControl = slewRateInit(0.5);
 	//pros::lcd::clear();
 //	indexer.move(127);
 	stop();
@@ -32,12 +38,21 @@ void autonomous() {
 	gyro.reset();
 	pros::delay(2000);
 
-	//programmingSkills();
-	//gyroTurn(-90, 0, 100000);
 
-	while(1) {
-		pros::delay(10);
-	}
+	odom.tarePosition();
+
+	//programmingSkills();
+	odomProgrammingSkills();
+	//gyroTurn(-90, 0, 100000);
+	// MoveToPosition(60, 30, 3000);
+	// MoveToPosition(30, 60, 3000);
+	// MoveToPosition(0, 0, 3000);
+	// gyroTurn(0,0,2000);
+
+
+	// while(1) {
+	// 	pros::delay(10);
+	// }
 	stop();
 }
 
@@ -45,10 +60,73 @@ void odomTaskFn() {
 	while (1) {
 		odom.UpdatePose();
 		odom.PrintData();
-		pros::delay(10);
+		pros::delay(3);
 	}
 }
 
+void odomProgrammingSkills() {
+	setupIntake();
+	MoveToPosition(30, 0, 750);
+
+	MoveToPosition(31, 28, 900);
+	MoveToPosition(17, 12, 800);
+
+	setIntakeSpeed(0);//In
+	setConveyorSpeed(-30); //Up
+	setIndexerSpeed(-80); //Out
+	gyroTurn(135, 0,600);
+	setIntakeSpeed(127);//In
+	setConveyorSpeed(0); //Up
+	setIndexerSpeed(0); //Out
+	MoveToPosition(1, 27, 800);
+
+	shoot3descore2();
+	setIntakeSpeed(-127);
+	MoveToPosition(17, 12, 500);
+	intakeAllBackward();
+
+	gyroTurn(-45, 0, 500);
+	setupIntake();
+	MoveToPosition(42, -36, 1600);
+	gyroTurn(-179, 0, 500);
+	MoveToPosition(-1, -36, 1200);
+	shoot1descore1();
+	intakeAllBackward();
+	MoveToPosition(12, -36, 450);
+	setupIntake();
+	gyroTurn(-170, 0, 600);
+	MoveToPosition(12, -72, 1000);
+	MoveToPosition(18, -106, 1000);
+	MoveToPosition(4, -81, 1000);
+	gyroTurn(-135, 0, 700);
+	MoveToPosition(-7, -95, 1200);
+	shoot2descore2();
+	intakeAllBackward();
+
+	MoveToPosition(20, -75, 1200);
+	gyroTurn(0, 0, 400);
+	setupIntake();
+	MoveToPosition(54, -60, 1200);
+	gyroTurn(-170, 0, 400);
+	MoveToPosition(54, -100, 1000);
+
+	shoot2descore1();
+
+	MoveToPosition(54, -80, 1000);
+
+
+
+
+
+
+
+
+
+
+
+
+
+}
 void setIntakeSpeed(int power){
 		leftIntake.move(power);
 		rightIntake.move(power);
@@ -187,7 +265,7 @@ void setupIntake(){
 void shoot1descore1() {
 	setConveyorSpeed(127); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(250);
+	pros::delay(300);
 
 	setConveyorSpeed(40); //Up
 	setIndexerSpeed(0); //Out
@@ -210,6 +288,25 @@ void shoot2descore1() {
 	pros::delay(200);
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
+}
+
+void shoot2descore2() {
+	//first ball
+	setConveyorSpeed(100); //Up
+	setIndexerSpeed(127); //Out
+	pros::delay(180);
+	setConveyorSpeed(0); //Up
+	setIndexerSpeed(0); //Out
+	pros::delay(500);
+
+
+  //second ball
+	setConveyorSpeed(100); //Up
+	setIndexerSpeed(127); //Out
+	pros::delay(200);
+	setConveyorSpeed(0); //Up
+	setIndexerSpeed(0); //Out
+	pros::delay(300);
 }
 
 void shoot3descore2() {
@@ -242,7 +339,7 @@ void shoot3descore2() {
 	pros::delay(300);
 }
 
-void MoveToPosition(float targetX, float targetY)
+void MoveToPosition(float targetX, float targetY, int maxTime)
 {
     bool atPoint = false;
 	float targetAngle =0;
@@ -257,38 +354,43 @@ void MoveToPosition(float targetX, float targetY)
     if (pros::millis()-turnControl.lastSlewTime>10){
 	  turnControl.lastSlewTime = pros::millis()-5;
     }
+		long startTime = pros::millis();
     while (!atPoint) {
         float distance = sqrt(pow(targetY-odom.getY(),2) + pow(targetX-odom.getX(),2));
 
+
         power = pidCalculate(odomDistancePID, 0, distance);
         power = slewRateCalculate(distanceControl, power);
-        targetAngle = (atan2f((targetY-odom.getY()),(targetX-odom.getX())));
 
 
-        float projection = ((targetX-odom.getX())*cos(odom.getAngle())+(targetY-odom.getY())*sin(odom.getAngle()));
+				float projection = ((targetX-odom.getX())*cos(odom.getAngleRad())+(targetY-odom.getY())*sin(odom.getAngleRad()));
+				targetAngle = (atan2f((targetY-odom.getY()),(targetX-odom.getX())));
 
-         if (projection < 0) {
-             power = -power;
-             targetAngle = modulus((targetAngle+M_PI)+M_PI, 2*M_PI)-M_PI;
-         }
+				 if (projection < 0) {
+						power *= -1;
+						 targetAngle = modulus((targetAngle+M_PI)+M_PI, 2*M_PI)-M_PI;
+				 }
+
+				  pros::lcd::print(7, "TargetAngle: %f", targetAngle);
 
         float referenceAngle = 0;
-        if (targetAngle-odom.getAngle()>M_PI) {
-            referenceAngle = odom.getAngle()+(2*M_PI);
+        if (targetAngle-odom.getAngleRad()>M_PI) {
+            referenceAngle = odom.getAngleRad()+(2*M_PI);
         }
-        else if (targetAngle-odom.getAngle()<-M_PI) {
-            referenceAngle = odom.getAngle()-(2*M_PI);
+        else if (targetAngle-odom.getAngleRad()<-M_PI) {
+            referenceAngle = odom.getAngleRad()-(2*M_PI);
         }
         else {
 
-            referenceAngle = odom.getAngle();
+            referenceAngle = odom.getAngleRad();
         }
-
+				targetAngle *= (180/M_PI);
+				referenceAngle *= (180/M_PI);
         turnPower = pidCalculate(odomTurningPID, targetAngle, referenceAngle);
         turnPower = slewRateCalculate(turnControl, turnPower);
 
-				float leftVal = power-turnPower;
-				float rightVal = power+turnPower;
+				float leftVal = -(power+turnPower);
+				float rightVal = -(power-turnPower);
 				frontLeft.move(leftVal);
 			  middleLeft.move(leftVal);
 				backLeft.move(leftVal);
@@ -296,7 +398,7 @@ void MoveToPosition(float targetX, float targetY)
 				middleRight.move(rightVal);
 				backRight.move(rightVal);
 
-        if (sqrt(pow(targetY-odom.getY(),2) + pow(targetX-odom.getX(),2)) < 10) {
+        if (sqrt(pow(targetY-odom.getY(),2) + pow(targetX-odom.getX(),2)) < 0.6 || pros::millis() - startTime > maxTime) {
             repsAtTarget++;
         }
         else {
@@ -393,20 +495,20 @@ void gyroTurn(float target, int accuracy, int time, bool precise) {
 	int repsAtTarget = 0;
 	//go into the loop that will repeat to update motor values and break when at target
 	while (!gyroAtTarget  && (pros::millis()-startTime) < time) {
-		pros::lcd::print(7, "Angle: %f", gyro.get_value()/10.0);
+	//	pros::lcd::print(7, "Angle: %f", odom.getAngle());
 		auxiliary();
 		// calculate the desired motor value based on the sensor value relative to the target
-		float drive = pidCalculate(gyroPID, target, gyro.get_value()/10.0)*((precise)? 0.75: 1);
+		float drive = pidCalculate(gyroPID, target,odom.getAngle())*((precise)? 0.75: 1);
 	//	drive = slewRateCalculate(drive);
 	//	drive = ((fabs(gyro.get_value()/10.0-target)>180)? -1 : 1)*drive;
-	frontLeft.move(drive);
-	middleLeft.move(drive);
-	backLeft.move(drive);
-	frontRight.move(-drive);
-	middleRight.move(-drive);
-	backRight.move(-drive);
+	frontLeft.move(-drive);
+	middleLeft.move(-drive);
+	backLeft.move(-drive);
+	frontRight.move(drive);
+	middleRight.move(drive);
+	backRight.move(drive);
 		//if the sensor value is within the desired range of the target
-		if (fabs(gyro.get_value()/10.0-target) < accuracy) {
+		if (fabs(odom.getAngle()-target) < accuracy) {
 			//if the sensor value is within the range for multiple iterations of the loop where each loop is approximately 20ms
 			if (repsAtTarget > 25) {
 				//break out of the loop
