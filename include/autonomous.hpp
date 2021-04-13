@@ -48,6 +48,7 @@ void intakeButDontShoot();
 void intakeAllForward();
 void intakeAllBackward();
 void intakeAllStop();
+void indexBalls();
 
 float modulus(float a, float b);
 void auton();
