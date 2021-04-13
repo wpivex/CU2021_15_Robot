@@ -1,3 +1,4 @@
+#include <thread>
 #include "autonomous.hpp"
 
 /*
@@ -21,7 +22,8 @@ void autonomous() {
 	pros::Task odomTask(odomTaskFn);
 	drivePID = pidInit (0.34, 0, 0.4, 0, 100.0,5,15);
 	gyroDrivePID = pidInit(0.7, 0, 0.4, 0, 40,999999,9999999);
-	gyroPID = pidInit(1.62,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+	// gyroPID = pidInit(1.62,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+	 gyroPID = pidInit(2.12,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
 //                        	P    I  D  idk idk idk idk
 //	odomDistancePID = pidInit (0, 0, 0, 0, 100.0,0.1,0.5);
 
@@ -65,54 +67,59 @@ void odomTaskFn() {
 }
 
 void odomProgrammingSkills() {
-	setupIntake();
-	MoveToPosition(30, 0, 750);
-
-	MoveToPosition(31, 28, 900);
-	MoveToPosition(17, 12, 800);
+	intakeButDontShoot();
+	MoveToPosition(30, 0, 750); //Cut off short  - intake first ball
+	MoveToPosition(31, 28, 900); //Intake 2nd ball
+	MoveToPosition(17, 12, 800); //align with goal 1
 
 	setIntakeSpeed(0);//In
 	setConveyorSpeed(-30); //Up
 	setIndexerSpeed(-80); //Out
-	gyroTurn(135, 0,600);
+	gyroTurn(135, 0,600); //Face Goal
 	setIntakeSpeed(127);//In
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
 	MoveToPosition(1, 27, 800);
 
-	shoot3descore2();
-	setIntakeSpeed(-127);
+	shoot3descore2(); //goal 1
+	setIntakeSpeed(-127); //o ut
 	MoveToPosition(17, 12, 500);
-	intakeAllBackward();
+	intakeAllBackward(); //meaning spit out
 
-	gyroTurn(-45, 0, 500);
-	setupIntake();
-	MoveToPosition(42, -36, 1600);
+	gyroTurn(-65, 0, 500); //cut short
+	pros::Task task{[=] {
+				pros::delay(300);
+				intakeButDontShoot();
+	}};
+	MoveToPosition(42, -31, 1500); //undershhot so we get a 90 degree approch
 	gyroTurn(-179, 0, 500);
 	MoveToPosition(-1, -36, 1200);
-	shoot1descore1();
-	intakeAllBackward();
+	shoot1descore1(); //at goal 2
+	pros::Task task2{[=] {
+				pros::delay(300);
+				intakeAllBackward();
+	}};
 	MoveToPosition(12, -36, 450);
-	setupIntake();
-	gyroTurn(-170, 0, 600);
+	gyroTurn(-90, 0, 700);
+	intakeButDontShoot();
 	MoveToPosition(12, -72, 1000);
-	MoveToPosition(18, -106, 1000);
-	MoveToPosition(4, -81, 1000);
-	gyroTurn(-135, 0, 700);
-	MoveToPosition(-7, -95, 1200);
-	shoot2descore2();
+	MoveToPosition(22, -106, 1000);
+	MoveToPosition(8, -78, 1000);
+	gyroTurn(-135, 0, 400);
+	MoveToPosition(-5, -96, 1200);
+	shoot2descore2(); //goal 3
 	intakeAllBackward();
 
 	MoveToPosition(20, -75, 1200);
-	gyroTurn(0, 0, 400);
-	setupIntake();
-	MoveToPosition(54, -60, 1200);
+	gyroTurn(0, 0, 300);
+	intakeButDontShoot();
+	MoveToPosition(60, -60, 1200);
 	gyroTurn(-170, 0, 400);
-	MoveToPosition(54, -100, 1000);
+	MoveToPosition(60, -100, 1000);
 
 	shoot2descore1();
 
-	MoveToPosition(54, -80, 1000);
+	MoveToPosition(60, -80, 1000);
 
 
 
@@ -124,9 +131,14 @@ void odomProgrammingSkills() {
 
 
 
-
+	intakeAllStop();
 
 }
+
+void pauseForMSthenRunIntake(int ms){
+	intakeAllBackward();
+}
+
 void setIntakeSpeed(int power){
 		leftIntake.move(power);
 		rightIntake.move(power);
@@ -143,7 +155,7 @@ void setIndexerSpeed(int power){
 }
 
 void programmingSkills(){
-	setupIntake();
+	intakeButDontShoot();
 	driveTarget(1050,0,0,2500);
 
 	driveTarget(-310,0,0,1200);
@@ -163,7 +175,7 @@ void programmingSkills(){
 
 	driveTarget(-350,-69,0,1200);
 	gyroTurnRelative(-167, 0, 1200);
-	setupIntake();
+	intakeButDontShoot();
 	driveTargetRelative(1140,0,2000);
 	gyroTurnRelative(111,0,1200);
 	driveTargetRelative(700,0,1300);
@@ -178,7 +190,7 @@ void programmingSkills(){
 	intakeAllBackward();
 	gyroTurnRelative(-150.5,0,2000);
 
-	setupIntake();
+	intakeButDontShoot();
 	driveTargetRelative(690,0,2000);
 	gyroTurnRelative(-30,0,1200);
 
@@ -201,7 +213,7 @@ void programmingSkills(){
 	intakeAllBackward();
 	gyroTurnRelative(-142,0,1400);
 
-	setupIntake();
+	intakeButDontShoot();
 	driveTargetRelative(700,0,1800);
 
 
@@ -219,7 +231,7 @@ void programmingSkills(){
 	intakeAllBackward();
 	gyroTurnRelative(-150.5,0,2000);
 
-	setupIntake();
+	intakeButDontShoot();
 
 	driveTargetRelative(600,0,1200);
 
@@ -252,11 +264,18 @@ void intakeAllForward() {
 }
 
 void intakeAllBackward() {
-	setIndexerSpeed(-127);
-	setIntakeSpeed(-127);
-	setConveyorSpeed(-127);
+	setIndexerSpeed(-127); //out
+	setIntakeSpeed(-127); //out
+	setConveyorSpeed(-127); //down
 }
-void setupIntake(){
+
+void intakeAllStop() {
+	setIndexerSpeed(0);
+	setIntakeSpeed(0);
+	setConveyorSpeed(0);
+}
+
+void intakeButDontShoot(){
 	setIntakeSpeed(127);//In
 	setConveyorSpeed(60); //Up
 	setIndexerSpeed(-70); //In
@@ -496,7 +515,7 @@ void gyroTurn(float target, int accuracy, int time, bool precise) {
 	//go into the loop that will repeat to update motor values and break when at target
 	while (!gyroAtTarget  && (pros::millis()-startTime) < time) {
 	//	pros::lcd::print(7, "Angle: %f", odom.getAngle());
-		auxiliary();
+		// auxiliary();
 		// calculate the desired motor value based on the sensor value relative to the target
 		float drive = pidCalculate(gyroPID, target,odom.getAngle())*((precise)? 0.75: 1);
 	//	drive = slewRateCalculate(drive);

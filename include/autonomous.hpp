@@ -1,3 +1,4 @@
+#include <thread>
 #include "main.h"
 #include "PID.hpp"
 #include "SlewRate.hpp"
@@ -43,9 +44,10 @@ void moveTime(int left, int right, int time);
 void setIndexerSpeed(int power);
 void setConveyorSpeed(int power);
 void setIntakeSpeed(int power);
-void setupIntake();
+void intakeButDontShoot();
 void intakeAllForward();
 void intakeAllBackward();
+void intakeAllStop();
 
 float modulus(float a, float b);
 void auton();
