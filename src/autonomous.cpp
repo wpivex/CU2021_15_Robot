@@ -68,8 +68,8 @@ void odomTaskFn() {
 
 void odomProgrammingSkills() {
 	intakeButDontShoot();
-	MoveToPosition(30, 0, 750); //Cut off short  - intake first ball
-	MoveToPosition(31, 28, 900); //Intake 2nd ball
+	MoveToPosition(30, 0, 600); //Cut off short  - intake first ball
+	MoveToPosition(28, 28, 900); //Intake 2nd ball
 	MoveToPosition(17, 12, 800); //align with goal 1
 
 	setIntakeSpeed(0);//In
@@ -84,16 +84,16 @@ void odomProgrammingSkills() {
 	shoot3descore2(); //goal 1
 	setIntakeSpeed(-127); //o ut
 	MoveToPosition(17, 12, 500);
-	intakeAllBackward(); //meaning spit out
+	intakeAllForward(); //meaning spit out the top
 
 	gyroTurn(-65, 0, 500); //cut short
 	pros::Task task{[=] {
 				pros::delay(300);
 				intakeButDontShoot();
 	}};
-	MoveToPosition(42, -31, 1500); //undershhot so we get a 90 degree approch
+	MoveToPosition(41, -31, 1300); //undershhot so we get a 90 degree approch
 	gyroTurn(-179, 0, 500);
-	MoveToPosition(-1, -36, 1200);
+	MoveToPosition(-3, -34, 900);
 	shoot1descore1(); //at goal 2
 	pros::Task task2{[=] {
 				pros::delay(300);
@@ -103,23 +103,55 @@ void odomProgrammingSkills() {
 	gyroTurn(-90, 0, 700);
 	intakeButDontShoot();
 	MoveToPosition(12, -72, 1000);
-	MoveToPosition(22, -106, 1000);
-	MoveToPosition(8, -78, 1000);
-	gyroTurn(-135, 0, 400);
-	MoveToPosition(-5, -96, 1200);
+	MoveToPosition(20, -98, 1000);//ball at the wall
+	MoveToPosition(10, -78, 1000);//back up in front of goal
+	gyroTurn(-145, 0, 400);
+	MoveToPosition(-4, -98, 800);
 	shoot2descore2(); //goal 3
-	intakeAllBackward();
-
+	setIntakeSpeed(-127);
+	pros::Task task4{[=] {
+				pros::delay(400);
+				intakeAllBackward();
+	}};
 	MoveToPosition(20, -75, 1200);
-	gyroTurn(0, 0, 300);
+	gyroTurn(0, 0, 600);
 	intakeButDontShoot();
-	MoveToPosition(60, -60, 1200);
+	MoveToPosition(59, -56, 1200);
 	gyroTurn(-170, 0, 400);
 	MoveToPosition(60, -100, 1000);
 
-	shoot2descore1();
+	shoot2descore1(); //goal 4
+	setIntakeSpeed(-127);
+	pros::Task task3{[=] {
+				pros::delay(400);
+				intakeAllBackward();
+	}};
+	MoveToPosition(70, -72, 1000);
+	intakeButDontShoot();
 
-	MoveToPosition(60, -80, 1000);
+	gyroTurn(90,0,500);
+	MoveToPosition(102, -74, 1000);
+	gyroTurn(-90,0,500);
+	MoveToPosition(86, -98, 1000);
+	MoveToPosition(105, -86, 1000);
+	gyroTurn(-45,0,500);
+	MoveToPosition(115, -96, 1000);
+
+	shoot2descore2(); //goal 5
+	setIntakeSpeed(-127);
+	pros::Task task5{[=] {
+				pros::delay(400);
+				intakeAllBackward();
+	}};
+	MoveToPosition(96, -74, 1000);
+
+	gyroTurn(90,0,400);
+
+	MoveToPosition(68, -22, 1000);
+	gyroTurn(90,0,400);
+	MoveToPosition(115, -22, 1000);
+
+
 
 
 
