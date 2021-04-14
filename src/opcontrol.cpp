@@ -54,6 +54,7 @@ void handleIntakes() {
 		conveyorPower = 70;
 	}
 
+
 	leftConveyor.move(conveyorPower);
 	rightConveyor.move(conveyorPower);
 
@@ -62,4 +63,63 @@ void handleIntakes() {
 
 	leftIndexer.move(indexerPower);
 	rightIndexer.move(indexerPower);
+	if (controller.get_digital_new_press(DIGITAL_B)) {
+		opIndexBalls();
+	}
+	if (controller.get_digital_new_press(DIGITAL_A)) {
+		opShoot2descore2();
+	}
+}
+
+void opIndexBalls() {
+	opsetIntakeSpeed(127);//In
+	opsetConveyorSpeed(-127); //Up
+	opsetIndexerSpeed(-127); //Out
+
+	pros::delay(400);
+
+	opsetConveyorSpeed(127); //Up
+	opsetIndexerSpeed(-80); //Out
+
+	pros::delay(400);
+
+
+	opsetIntakeSpeed(0);//In
+	opsetConveyorSpeed(0); //Up
+	opsetIndexerSpeed(0); //Out
+}
+
+void opShoot2descore2() {
+	//first ball
+
+	opsetConveyorSpeed(100); //Up
+	opsetIndexerSpeed(127); //Out
+	pros::delay(215);
+	opsetConveyorSpeed(30); //Up
+	opsetIndexerSpeed(-100); //Out
+	pros::delay(500);
+
+
+  //second ball
+	opsetConveyorSpeed(100); //Up
+	opsetIndexerSpeed(127); //Out
+	pros::delay(200);
+	opsetConveyorSpeed(0); //Up
+	opsetIndexerSpeed(0); //Out
+	pros::delay(300);
+}
+
+void opsetIntakeSpeed(int power){
+		leftIntake.move(power);
+		rightIntake.move(power);
+}
+
+void opsetConveyorSpeed(int power){
+		leftConveyor.move(power);
+		rightConveyor.move(power);
+}
+
+void opsetIndexerSpeed(int power){
+		leftIndexer.move(power);
+		rightIndexer.move(power);
 }
