@@ -74,9 +74,8 @@ void odomProgrammingSkills() {
 	intakeButDontShoot();
 	MoveToPosition(30, 0, 600); //Cut off short  - intake first ball
 	MoveToPosition(28, 28, 900); //Intake 2nd ball
+	startIndexingTask(300, true); //(delay, turn intake on at the end)
 	MoveToPosition(17, 12, 800); //align with goal 1
-
-  indexBalls();
 	setIntakeSpeed(-127); //In
 
 	gyroTurn(135, 0,600); //Face Goal
@@ -109,10 +108,9 @@ void odomProgrammingSkills() {
 	MoveToPosition(12, -72, 1000);
 	MoveToPosition(20, -98, 1000);//ball at the wall
 	MoveToPosition(10, -78, 1000);//back up in front of goal 3
-	indexBalls();
+	startIndexingTask(0, true);
 	gyroTurn(-145, 0, 700);
-	setIntakeSpeed(127);
-	MoveToPosition(-5.5, -98, 900);
+	MoveToPosition(-5.5, -94, 900);
 	shoot2descore2(); //goal 3
 	setIntakeSpeed(-127);
 	pros::Task task4{[=] {
@@ -120,10 +118,9 @@ void odomProgrammingSkills() {
 				intakeAllBackward();
 	}};
 	MoveToPosition(20, -75, 1200);
-	gyroTurn(10, 0, 1300); //cut off
+	gyroTurn(20, 0, 1300); //cut off
 	intakeButDontShoot();
-	MoveToPosition(57, -56, 1200);
-	indexBalls();
+	MoveToPosition(54.5, -56, 1200);
 	gyroTurn(-170, 0, 500);
 	intakeButDontShoot();
 	MoveToPosition(58, -95, 1200);
@@ -141,6 +138,7 @@ void odomProgrammingSkills() {
 	MoveToPosition(102, -70.5, 1000);
 	gyroTurn(-90,0,500);
 	MoveToPosition(90, -98, 1000);
+	startIndexingTask(300, true);
 	MoveToPosition(105, -88, 1000);
 	gyroTurn(-45,0,500); //line up with 5
 	MoveToPosition(115, -97, 1000);
@@ -155,8 +153,9 @@ void odomProgrammingSkills() {
 
 	gyroTurn(120,0,1200);
 	intakeButDontShoot();
-	MoveToPosition(76, -38, 1250);
+	MoveToPosition(74, -38, 1250);
 	gyroTurn(90,0,400);
+	startIndexingTask(300, true);
 	MoveToPosition(114, -35, 2000);
 
 	shoot1descore1();
@@ -174,7 +173,7 @@ void odomProgrammingSkills() {
 
 	//line up with goal 7
 	MoveToPosition(100, 10, 1000);
-
+	startIndexingTask(300, true);
 	gyroTurn(45,0,600);
 
 
@@ -185,9 +184,9 @@ void odomProgrammingSkills() {
 	MoveToPosition(101, 13, 1000);
 
 
-
-
-
+	MoveToPosition(48, 0, 10000);
+	MoveToPosition(24, 0, 3000);
+	gyroTurn(0, 0, 3000);
 
 
 
@@ -201,11 +200,47 @@ void odomProgrammingSkills() {
 	intakeAllStop();
 
 }
+void startIndexingTask(int time, bool intakesOn) {
+	pros::delay(time);
+	pros::Task ballIndexingTask{[=] {
+				indexBalls();
+				setIntakeSpeed((intakesOn)? 127: 0);
+	}};
 
-void indexBalls() {
-	setIntakeSpeed(0);//stop
-	setConveyorSpeed(-30); //Down
-	setIndexerSpeed(-80); //In
+}
+void indexBalls() { //takes 1240ms
+	setIntakeSpeed(127);//In
+	setConveyorSpeed(-127); //Up
+	setIndexerSpeed(-127); //Out
+
+	pros::delay(400);
+
+	setConveyorSpeed(100); //Up
+	setIndexerSpeed(-100); //Out
+
+	pros::delay(160);
+
+	setConveyorSpeed(60); //Up
+	setIndexerSpeed(-100); //Out
+
+	pros::delay(520);
+
+	setIntakeSpeed(0);//In
+
+	setConveyorSpeed(0); //Up
+	setIndexerSpeed(10); //Out
+
+	pros::delay(120);
+
+	setConveyorSpeed(-30); //Up
+
+	setIntakeSpeed(-127);//In
+
+	pros::delay(140);
+
+	setConveyorSpeed(0); //Up
+
+	setIndexerSpeed(0); //Out
 }
 void pauseForMSthenRunIntake(int ms){
 	intakeAllBackward();
@@ -383,21 +418,25 @@ void shoot2descore1() {
 
 void shoot2descore2() {
 	//first ball
+
 	setConveyorSpeed(100); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(215);
+	pros::delay(235);
 	setConveyorSpeed(0); //Up
-	setIndexerSpeed(0); //Out
-	pros::delay(500);
+	setIndexerSpeed(-40); //Out
+
+	pros::delay(200);
+	setIndexerSpeed(0); //stop
+	setConveyorSpeed(-40);
+	pros::delay(150);
 
 
   //second ball
-	setConveyorSpeed(100); //Up
+	setConveyorSpeed(127); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(200);
+	pros::delay(350);
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
-	pros::delay(300);
 }
 
 void shoot3descore2() {

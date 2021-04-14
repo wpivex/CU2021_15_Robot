@@ -14,7 +14,7 @@ void Odometry::Restart() {
     time_prev = pros::millis();
 }
 
-void Odometry::setOrigin(double newX, double newY) {
+void Odometry::setCoordinates(double newX, double newY) {
     x = newX;
     y = newY;
 }
@@ -24,8 +24,15 @@ void Odometry::tarePosition() {
   y = 0;
 }
 
-void Odometry::setAngle(float angle) {
-  theta = angle;
+void Odometry::setX(float newX) {
+  x = newX;
+}
+
+void Odometry::setY(float newY) {
+  y = newY;
+}
+void Odometry::setAngleDegrees(float angle) {
+  theta = angle*M_PI/90.0;
 }
 
 void Odometry::Stop(void)

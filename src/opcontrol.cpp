@@ -78,15 +78,33 @@ void opIndexBalls() {
 
 	pros::delay(400);
 
-	opsetConveyorSpeed(127); //Up
-	opsetIndexerSpeed(-80); //Out
+	opsetConveyorSpeed(100); //Up
+	opsetIndexerSpeed(-100); //Out
 
-	pros::delay(400);
+	pros::delay(160);
 
+	opsetConveyorSpeed(60); //Up
+	opsetIndexerSpeed(-100); //Out
+
+	pros::delay(520);
 
 	opsetIntakeSpeed(0);//In
+
 	opsetConveyorSpeed(0); //Up
+	opsetIndexerSpeed(10); //Out
+
+	pros::delay(120);
+
+	opsetConveyorSpeed(-30); //Up
+
+	opsetIntakeSpeed(-127);//In
+
+	pros::delay(140);
+
+	opsetConveyorSpeed(0); //Up
+
 	opsetIndexerSpeed(0); //Out
+
 }
 
 void opShoot2descore2() {
@@ -94,19 +112,23 @@ void opShoot2descore2() {
 
 	opsetConveyorSpeed(100); //Up
 	opsetIndexerSpeed(127); //Out
-	pros::delay(215);
-	opsetConveyorSpeed(30); //Up
-	opsetIndexerSpeed(-100); //Out
-	pros::delay(500);
+	pros::delay(210);
+	opsetConveyorSpeed(0); //Up
+	opsetIndexerSpeed(-40); //Out
+
+	pros::delay(200);
+	opsetIndexerSpeed(0); //stop
+	opsetConveyorSpeed(-40);
+	pros::delay(150);
 
 
   //second ball
-	opsetConveyorSpeed(100); //Up
+	opsetConveyorSpeed(127); //Up
 	opsetIndexerSpeed(127); //Out
-	pros::delay(200);
+	pros::delay(350);
 	opsetConveyorSpeed(0); //Up
 	opsetIndexerSpeed(0); //Out
-	pros::delay(300);
+
 }
 
 void opsetIntakeSpeed(int power){

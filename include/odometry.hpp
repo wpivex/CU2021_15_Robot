@@ -21,13 +21,15 @@ class Odometry{
         float getAngleRad();
 
         void tarePosition();
-        void setAngle(float angle);
+        void setAngleDegrees(float angle);
+        void setX(float newX);
+        void setY(float newY);
         void Init(void);
         void UpdatePose();
         void Restart();
         void PrintData(void);
         void Stop(void);
-        void setOrigin(double setX, double setY);
+        void setCoordinates(double setX, double setY);
 };
 
 #endif

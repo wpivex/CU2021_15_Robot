@@ -41,6 +41,7 @@ void gyroTurnRelative(float target, int accuracy, int time);
 void gyroTurn(float target, int accuracy, int time, bool precise);
 void moveTime(int left, int right, int time);
 
+void startIndexingTask(int time, bool intakesOn);
 void setIndexerSpeed(int power);
 void setConveyorSpeed(int power);
 void setIntakeSpeed(int power);
