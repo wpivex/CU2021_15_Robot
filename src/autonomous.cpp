@@ -90,7 +90,7 @@ void odomProgrammingSkills() {
 				pros::delay(300);
 				intakeButDontShoot();
 	}};
-	MoveToPosition(41, -31, 1300); //undershhot so we get a 90 degree approch
+	MoveToPosition(40, -31, 1300); //undershhot so we get a 90 degree approch
 	gyroTurn(-179, 0, 500);
 	MoveToPosition(-3, -34, 1100);
 	shoot1descore1(); //at goal 2
@@ -105,9 +105,9 @@ void odomProgrammingSkills() {
 	MoveToPosition(20, -98, 1000);//ball at the wall
 	MoveToPosition(10, -78, 1000);//back up in front of goal 3
 	indexBalls();
-	gyroTurn(-145, 0, 400);
+	gyroTurn(-145, 0, 700);
 	setIntakeSpeed(127);
-	MoveToPosition(-4, -98, 900);
+	MoveToPosition(-5.5, -98, 900);
 	shoot2descore2(); //goal 3
 	setIntakeSpeed(-127);
 	pros::Task task4{[=] {
@@ -115,13 +115,13 @@ void odomProgrammingSkills() {
 				intakeAllBackward();
 	}};
 	MoveToPosition(20, -75, 1200);
-	gyroTurn(20, 0, 1100); //cut off
+	gyroTurn(10, 0, 1300); //cut off
 	intakeButDontShoot();
 	MoveToPosition(57, -56, 1200);
 	indexBalls();
 	gyroTurn(-170, 0, 500);
 	intakeButDontShoot();
-	MoveToPosition(57, -95, 1200);
+	MoveToPosition(58, -95, 1200);
 
 	shoot2descore1(); //goal 4
 	setIntakeSpeed(-127);
@@ -136,9 +136,9 @@ void odomProgrammingSkills() {
 	MoveToPosition(102, -70.5, 1000);
 	gyroTurn(-90,0,500);
 	MoveToPosition(90, -98, 1000);
-	MoveToPosition(105, -89, 1000);
+	MoveToPosition(105, -88, 1000);
 	gyroTurn(-45,0,500); //line up with 5
-	MoveToPosition(115, -96, 1000);
+	MoveToPosition(115, -97, 1000);
 
 	shoot2descore2(); //goal 5
 	setIntakeSpeed(-127);
@@ -148,11 +148,11 @@ void odomProgrammingSkills() {
 	}};
 	MoveToPosition(96, -74, 1000);
 
-	gyroTurn(120,0,600);
+	gyroTurn(120,0,1200);
 	intakeButDontShoot();
 	MoveToPosition(76, -38, 1250);
 	gyroTurn(90,0,400);
-	MoveToPosition(110, -35, 2000);
+	MoveToPosition(114, -35, 2000);
 
 	shoot1descore1();
 	//goal 6
@@ -160,8 +160,27 @@ void odomProgrammingSkills() {
 				pros::delay(300);
 				intakeAllBackward();
 	}};
-	MoveToPosition(75, -35, 450);
-	gyroTurn(90, 0, 700);
+	MoveToPosition(98, -35, 450);
+	gyroTurn(-270, 0, 700);
+	intakeButDontShoot();
+	MoveToPosition(98, 0, 1000);
+
+	MoveToPosition(87, 28, 1000);
+
+	//line up with goal 7
+	MoveToPosition(100, 10, 1000);
+
+	gyroTurn(45,0,600);
+
+
+	MoveToPosition(113, 24, 1000);
+
+	shoot2descore2();
+	setIntakeSpeed(-127); //goal 7
+	MoveToPosition(101, 13, 1000);
+
+
+
 
 
 
@@ -361,10 +380,10 @@ void shoot2descore2() {
 	//first ball
 	setConveyorSpeed(100); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(360);
+	pros::delay(215);
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
-	pros::delay(300);
+	pros::delay(500);
 
 
   //second ball
