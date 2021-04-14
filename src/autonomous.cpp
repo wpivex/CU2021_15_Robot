@@ -66,6 +66,10 @@ void odomTaskFn() {
 	}
 }
 
+// setIntakeSpeed(+);//In
+// setConveyorSpeed(+); //Up
+// setIndexerSpeed(+); //Out
+
 void odomProgrammingSkills() {
 	intakeButDontShoot();
 	MoveToPosition(30, 0, 600); //Cut off short  - intake first ball
@@ -73,6 +77,7 @@ void odomProgrammingSkills() {
 	MoveToPosition(17, 12, 800); //align with goal 1
 
   indexBalls();
+	setIntakeSpeed(-127); //In
 
 	gyroTurn(135, 0,600); //Face Goal
 	setIntakeSpeed(127);//In
@@ -198,9 +203,9 @@ void odomProgrammingSkills() {
 }
 
 void indexBalls() {
-	setIntakeSpeed(0);//In
-	setConveyorSpeed(-30); //Up
-	setIndexerSpeed(-80); //Out
+	setIntakeSpeed(0);//stop
+	setConveyorSpeed(-30); //Down
+	setIndexerSpeed(-80); //In
 }
 void pauseForMSthenRunIntake(int ms){
 	intakeAllBackward();
@@ -396,7 +401,7 @@ void shoot2descore2() {
 }
 
 void shoot3descore2() {
-	setIntakeSpeed(127);//In
+	setIntakeSpeed(127);//Out
 
 	//first ball
 	setConveyorSpeed(100); //Up
@@ -404,8 +409,9 @@ void shoot3descore2() {
 	pros::delay(200);
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
-	pros::delay(400);
-
+	pros::delay(200);
+	setIndexerSpeed(-127); //In
+	pros::delay(200);
 
   //second ball
 	setConveyorSpeed(100); //Up
