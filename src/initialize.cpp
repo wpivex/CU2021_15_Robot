@@ -40,11 +40,33 @@ pros::ADIEncoder rightEncoder('E', 'F', true);
 pros::ADIEncoder leftEncoder('C', 'D', false);
 pros::ADIEncoder backEncoder('A', 'B', true);
 
+int NUMBER_OF_SENSORS(8);
+int ADI_EXPANDER_SMART_PORT(1);
+																		//Tuple -> {3wire expander port, ADI port on exapnder}
+pros::ADIAnalogIn ls1({{ADI_EXPANDER_SMART_PORT,'a'}});
+pros::ADIAnalogIn ls2({{ADI_EXPANDER_SMART_PORT,'b'}});
+pros::ADIAnalogIn ls3({{ADI_EXPANDER_SMART_PORT,'c'}});
+pros::ADIAnalogIn ls4({{ADI_EXPANDER_SMART_PORT,'d'}});
+pros::ADIAnalogIn ls5({{ADI_EXPANDER_SMART_PORT,'e'}});
+pros::ADIAnalogIn ls6({{ADI_EXPANDER_SMART_PORT,'f'}});
+pros::ADIAnalogIn ls7({{ADI_EXPANDER_SMART_PORT,'g'}});
+pros::ADIAnalogIn ls8({{ADI_EXPANDER_SMART_PORT,'h'}});
 
 
 pros::ADIDigitalOut deploy('H');
 
 pros::ADIGyro gyro('G' , 0.96);
+
+void setDrivePower(int forwardPower, int turnPower){
+	float leftVal = -(forwardPower+turnPower);
+	float rightVal = -(forwardPower-turnPower);
+	frontLeft.move(leftVal);
+	middleLeft.move(leftVal);
+	backLeft.move(leftVal);
+	frontRight.move(rightVal);
+	middleRight.move(rightVal);
+	backRight.move(rightVal);
+}
 
 void initialize() {
 	pros::lcd::initialize();

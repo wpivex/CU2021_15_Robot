@@ -92,15 +92,9 @@ extern pros::ADIDigitalOut deploy;
 
 extern int NUMBER_OF_SENSORS; //Number of light sensors
 extern int ADI_EXPANDER_SMART_PORT; //The smart port that the 3wire expander plugs into
-// extern pros::ADIAnalogIn sensorArray[8]; //Array of AnalogIn objects (sensors)
-extern pros::ADIAnalogIn ls1;
-extern pros::ADIAnalogIn ls2;
-extern pros::ADIAnalogIn ls3;
-extern pros::ADIAnalogIn ls4;
-extern pros::ADIAnalogIn ls5;
-extern pros::ADIAnalogIn ls6;
-extern pros::ADIAnalogIn ls7;
-extern pros::ADIAnalogIn ls8;
+extern pros::ADIAnalogIn sensorArray[8]; //Array of AnalogIn objects (sensors)
+extern int sensorVals[8];
+
 
 double flywheelCalculate(double target);
 
@@ -109,10 +103,10 @@ void initialize(void);
 void disabled(void);
 void competition_initialize(void);
 void opcontrol(void);
+void setDrivePower(int forwardPower, int turnPower);
 #ifdef __cplusplus
 }
 #endif
-
 #ifdef __cplusplus
 /**
  * You can add C++-only headers here
