@@ -102,8 +102,10 @@ extern pros::ADIAnalogIn ls6;
 extern pros::ADIAnalogIn ls7;
 extern pros::ADIAnalogIn ls8;
 
-double flywheelCalculate(double target);
+extern pros::ADIButton frontBumper;
 
+double flywheelCalculate(double target);
+void setDrivePower(int forwardPower, int turnPower);
 void autonomous(void);
 void initialize(void);
 void disabled(void);

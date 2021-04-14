@@ -52,6 +52,8 @@ pros::ADIAnalogIn ls6({{ADI_EXPANDER_SMART_PORT,'f'}});
 pros::ADIAnalogIn ls7({{ADI_EXPANDER_SMART_PORT,'g'}});
 pros::ADIAnalogIn ls8({{ADI_EXPANDER_SMART_PORT,'h'}});
 
+pros::ADIDigitalIn frontBumper('G');
+
 
 pros::ADIDigitalOut deploy('H');
 

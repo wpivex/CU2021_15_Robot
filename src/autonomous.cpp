@@ -1,8 +1,8 @@
 #include <thread>
 #include "autonomous.hpp"
 #include <ctime>
-#include "Timer.h"
-#include "LineTrack.h"
+#include "Timer.hpp"
+#include "LineTrack.hpp"
 
 /*
  * Runs the user autonomous code. This function will be started in its own task
@@ -81,12 +81,35 @@ void odomProgrammingSkills() {
 	intakeButDontShoot();
 	MoveToPosition(30, 0, 600); //Cut off short  - intake first ball
 	gyroTurn(-90, 0, 900);
-	lineTrackTimer.setTimerMS(300);
+
+	//Option 1
+
+	lineTrackTimer.setTimerMS(800);
 	while(!lineTrackTimer.isExpired()){
 		//       (Forwards Power, Turn Power)
 		setDrivePower(30,lineController.calcTurnSpeed());
 		pros::delay(20);
 	}
+	setDrivePower(0,0);
+
+	//Option 2
+
+	while(odom.getY() > -80){
+		//       (Forwards Power, Turn Power)
+		setDrivePower(30,lineController.calcTurnSpeed());
+		pros::delay(20);
+	}
+	setDrivePower(0,0);
+
+	//Option 3
+
+	while(!frontBumper.get_value()){
+		//       (Forwards Power, Turn Power)
+		setDrivePower(30,lineController.calcTurnSpeed());
+		pros::delay(20);
+	}
+	setDrivePower(0,0);
+
 	// MoveToPosition(28, 28, 900); //Intake 2nd ball
 	// startIndexingTask(300, true); //(delay, turn intake on at the end)
 	// MoveToPosition(17, 12, 800); //align with goal 1

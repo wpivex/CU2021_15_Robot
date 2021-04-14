@@ -1,12 +1,5 @@
 #include "LineTrack.hpp"
 
-// private:
-//   const float SENSOR_IMBALANCE_OFFSET = 0;
-//   const float MAX_TURN_EFFORT = 1;
-//   float kP;
-//   float kI;
-//   float kD;
-
 LineTrack::LineTrack(float kP, float kI, float kD){
 
   kP = kP;
@@ -35,9 +28,8 @@ float LineTrack::calcTurnSpeed(){
 
   float turnPower = kP*error + kI*sumError + kD*deriError;
 
-  int maxEffort = 10;
-  if(turnPower > maxEffort) turnPower = maxEffort;
-  if(turnPower < maxEffort) turnPower = -maxEffort;
+  if(turnPower > MAX_TURN_EFFORT) turnPower = MAX_TURN_EFFORT;
+  if(turnPower < MAX_TURN_EFFORT) turnPower = -MAX_TURN_EFFORT;
 
   lastTime = now;
   lastError = error;
