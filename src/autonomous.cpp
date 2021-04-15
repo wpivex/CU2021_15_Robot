@@ -25,13 +25,13 @@ void autonomous() {
 	drivePID = pidInit (0.34, 0, 0.4, 0, 100.0,5,15);
 	gyroDrivePID = pidInit(0.7, 0, 0.4, 0, 40,999999,9999999);
 	// gyroPID = pidInit(1.62,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
-	 gyroPID = pidInit(2.12,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+	 gyroPID = pidInit(5,  0, 0.5, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
 //                        	P    I  D  idk idk idk idk
 //	odomDistancePID = pidInit (0, 0, 0, 0, 100.0,0.1,0.5);
 
 	odomDistancePID = pidInit (6, 0, 0.9, 0, 100.0,0.1,0.5);
 //	odomTurningPID = pidInit (0,  0, 0, 0, 10,99999,999999);
-	odomTurningPID = pidInit(2,  0, 0, 0, 10,99999,999999);
+	odomTurningPID = pidInit(1.7,  0, 0.06, 0, 10,99999,999999);
 
 	distanceControl = slewRateInit(0.22);
 	turnControl = slewRateInit(0.5); //Probably unsued
@@ -40,15 +40,15 @@ void autonomous() {
 
 	stop();
 
-	gyro.reset();
-	pros::delay(2000); //TODO: Take this out soon!
+	// gyro.reset();
+	// pros::delay(2000); //TODO: Take this out soon!
 
 
 	odom.tarePosition();
 
 	//programmingSkills();
-	odomProgrammingSkills();
-	//gyroTurn(-90, 0, 100000);
+	//odomProgrammingSkills();
+	gyroTurn(-135, 0, 100000);
 	// MoveToPosition(60, 30, 3000);
 	// MoveToPosition(30, 60, 3000);
 	// MoveToPosition(0, 0, 3000);
@@ -73,57 +73,80 @@ void odomTaskFn() {
 // setConveyorSpeed(+); //Up
 // setIndexerSpeed(+); //Out
 
-void odomProgrammingSkills() {
-	LineTrack *lineController = lineController->getInstance();
-	lineController->calibrateSensors();
-	lineController->setPIDConsts(0.01, 0, 0);
-	Timer lineTrackTimer = Timer();
-	intakeButDontShoot();
-	MoveToPosition(16, 0, 600); //Cut off short  - intake first ball
-	gyroTurn(-90, 0, 900);
+//MAKE SURE THE ROBOT IS STATIONARY
+void localizeOnCorner(){
+	stop();
+	pros::delay(1500);
+	odom.setAngleDegrees(odom.getAngle()-90);
 
-	//Option 1
+	const int NUMBER_OF_SAMPLES = 10;
 
-	lineTrackTimer.setTimerMS(30000);
-	while(!lineTrackTimer.isExpired()){
-		//      NEGATIVE (Rev Power, Turn Power)
-		setDrivePower(-90,lineController->calcTurnSpeed());
-		pros::delay(60);
+	std::vector<int> leftVals(NUMBER_OF_SAMPLES);
+	std::vector<int> rightVals(NUMBER_OF_SAMPLES);
+	for(int i = 0; i < NUMBER_OF_SAMPLES; i++){
+		//25.4 is mm -> inches
+		leftVals[i] = ultrasonicL.get_value()/25.4;
+		rightVals[i] = ultrasonicR.get_value()/25.4;
+		pros::delay(50);
 	}
-	setDrivePower(0,0);
 
-	//Option 2
+	odom.setY(findMedian(leftVals, NUMBER_OF_SAMPLES));
+	odom.setX(findMedian(rightVals, NUMBER_OF_SAMPLES));
+}
 
-	// while(odom.getY() > -80){
-	// 	//       (Forwards Power, Turn Power)
-	// 	setDrivePower(30,lineController->calcTurnSpeed());
-	// 	pros::delay(20);
-	// }
-	// setDrivePower(0,0);
-	//
-	// //Option 3
-	//
-	// while(!frontBumper.get_value()){
-	// 	//       (Forwards Power, Turn Power)
-	// 	setDrivePower(30,lineController->calcTurnSpeed());
-	// 	pros::delay(20);
-	// }
-	// setDrivePower(0,0);
+void odomProgrammingSkills() {
+	// LineTrack *lineController = lineController->getInstance();
+	// lineController->calibrateSensors();
+	// lineController->setPIDConsts(0.01, 0, 0);
+	// Timer lineTrackTimer = Timer();
+	odom.setAngleDegrees(180);
+	// pros::lcd::print(3, "Im here");
+	pros::delay(2000);
+	intakeButDontShoot();
+	MoveToPosition(-16, 0, 600); //Cut off short  - intake first ball
+	gyroTurn(-135, 0, 2900);
+	MoveToPosition(-28, -28, 900); //Intake 2nd ball
+	startIndexingTask(300, true); //(delay, turn intake on at the end)
+	MoveToPosition(-17, -12, 800); //align with goal 1
+	setIntakeSpeed(-127); //In
 
-	// MoveToPosition(28, 28, 900); //Intake 2nd ball
-	// startIndexingTask(300, true); //(delay, turn intake on at the end)
-	// MoveToPosition(17, 12, 800); //align with goal 1
-	// setIntakeSpeed(-127); //In
-	//
-	// gyroTurn(135, 0,600); //Face Goal
-	// setIntakeSpeed(127);//In
-	// setConveyorSpeed(0); //Up
-	// setIndexerSpeed(0); //Out
-	// MoveToPosition(1, 27, 800);
-	//
+	gyroTurn(-45, 0,600); //Face Goal
+	setIntakeSpeed(127);//In
+	setConveyorSpeed(0); //Up
+	setIndexerSpeed(0); //Out
+
+	pros::delay(2000);
+	localizeOnCorner(); //takes 2 sec
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
+	pros::delay(2000);
+	MoveToPosition(116,20, 5200);
+	gyroTurn(-45, 0,2600); //Face Goal
+
+	pros::delay(2000);
+	localizeOnCorner(); //takes 2 sec //Goal 3
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
+	pros::delay(2000);
+	MoveToPosition(116,20, 5200);
+	gyroTurn(-45, 0,2600); //Face Goal
+
+	pros::delay(2000);
+	localizeOnCorner(); //goal 7
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
+	pros::delay(2000);
+	MoveToPosition(116,20, 5200);
+	gyroTurn(-45, 0,2600); //Face Goal
+
+
+	pros::delay(2000);
+	localizeOnCorner(); //goal 1
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
+
 	// shoot3descore2(); //goal 1
 	// setIntakeSpeed(-127); //o ut
-	// MoveToPosition(17, 12, 500);
 	// intakeAllForward(); //meaning spit out the top
 	//
 	// gyroTurn(-65, 0, 500); //cut short
@@ -720,4 +743,54 @@ void stop() {
 	frontRight.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	middleRight.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	backRight.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+}
+
+
+
+
+// C++ program for the above approach
+
+#include <bits/stdc++.h>
+
+// Function for calculating
+// the median
+double findMedian(std::vector<int> a,
+                  int n)
+{
+
+    // If size of the arr[] is even
+    if (n % 2 == 0) {
+
+        // Applying nth_element
+        // on n/2th index
+        nth_element(a.begin(),
+                    a.begin() + n / 2,
+                    a.end());
+
+        // Applying nth_element
+        // on (n-1)/2 th index
+        nth_element(a.begin(),
+                    a.begin() + (n - 1) / 2,
+                    a.end());
+
+        // Find the average of value at
+        // index N/2 and (N-1)/2
+        return (double)(a[(n - 1) / 2]
+                        + a[n / 2])
+               / 2.0;
+    }
+
+    // If size of the arr[] is odd
+    else {
+
+        // Applying nth_element
+        // on n/2
+        nth_element(a.begin(),
+                    a.begin() + n / 2,
+                    a.end());
+
+        // Value at index (N/2)th
+        // is the median
+        return (double)a[n / 2];
+    }
 }

@@ -32,7 +32,7 @@ void Odometry::setY(float newY) {
   y = newY;
 }
 void Odometry::setAngleDegrees(float angle) {
-  theta = angle*M_PI/90.0;
+  theta = angle*M_PI/180.0;
 }
 
 void Odometry::Stop(void)
@@ -45,15 +45,19 @@ void Odometry::Stop(void)
 
 void Odometry::PrintData(void)
 {
-    pros::lcd::print(0, "X: %.3f \t Y: %.3f \t T: %.3f", x, y, getAngle());
+    pros::lcd::print(0, "X: %.2f \t Y: %.2f \t T: %.2f", x, y, getAngle());
+    controller.print(0,0, "(%3.0f,%3.0f) T:%3.1f", x, y, getAngle());
+
+
+    // controller.set
     pros::lcd::print(1, "Right: %d \t Left: %d", rightEncoder.get_value(),leftEncoder.get_value());
-    LineTrack *lineController = lineController->getInstance();
-    pros::lcd::print(2, "1:%.4d\t 2:%.4d\t 3:%.4d\t 4:%.4d", lineController->sensorVals[0],lineController->sensorVals[1],lineController->sensorVals[2],lineController->sensorVals[3]);
-    pros::lcd::print(3, "5:%.4d\t 6:%.4d\t 7:%.4d\t 8:%.4d", lineController->sensorVals[4],lineController->sensorVals[5],lineController->sensorVals[6],lineController->sensorVals[7]);
-    pros::lcd::print(4, "TurnPower: %.3f", lineController->calcTurnSpeed());
-    pros::lcd::print(5, "Raw Error: %.3f", lineController->debugError);
+    // LineTrack *lineController = lineController->getInstance();
+    // pros::lcd::print(2, "1:%.4d\t 2:%.4d\t 3:%.4d\t 4:%.4d", lineController->sensorVals[0],lineController->sensorVals[1],lineController->sensorVals[2],lineController->sensorVals[3]);
+    // pros::lcd::print(3, "5:%.4d\t 6:%.4d\t 7:%.4d\t 8:%.4d", lineController->sensorVals[4],lineController->sensorVals[5],lineController->sensorVals[6],lineController->sensorVals[7]);
+    // pros::lcd::print(4, "TurnPower: %.3f", lineController->calcTurnSpeed());
+    // pros::lcd::print(5, "Raw Error: %.3f", lineController->debugError);
     pros::lcd::print(6, "Millis(): %d", pros::millis());
-    pros::lcd::print(7, "Sonar: %d", ultrasonic.get_value());
+    pros::lcd::print(7, "SL: %d  SR: %d", ultrasonicL.get_value(),ultrasonicR.get_value());
 
 }
 

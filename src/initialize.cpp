@@ -39,7 +39,8 @@ pros::Motor rightIndexer(8, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODE
 pros::ADIEncoder rightEncoder('E', 'F', true);
 pros::ADIEncoder leftEncoder('C', 'D', false);
 // pros::ADIEncoder backEncoder('A', 'B', true);
-pros::ADIUltrasonic ultrasonic ('A', 'B');
+pros::ADIUltrasonic ultrasonicL ('A', 'B');
+pros::ADIUltrasonic ultrasonicR ('G', 'H');
 
 int NUMBER_OF_SENSORS(8);
 int ADI_EXPANDER_SMART_PORT(5);
@@ -50,14 +51,13 @@ pros::ADIAnalogIn ls3({{ADI_EXPANDER_SMART_PORT,'c'}});
 pros::ADIAnalogIn ls4({{ADI_EXPANDER_SMART_PORT,'d'}});
 pros::ADIAnalogIn ls5({{ADI_EXPANDER_SMART_PORT,'e'}});
 pros::ADIAnalogIn ls6({{ADI_EXPANDER_SMART_PORT,'f'}});
-pros::ADIAnalogIn ls7({{ADI_EXPANDER_SMART_PORT,'g'}});
-pros::ADIAnalogIn ls8({{ADI_EXPANDER_SMART_PORT,'h'}});
+// pros::ADIAnalogIn ls7({{ADI_EXPANDER_SMART_PORT,'g'}});
 
-pros::ADIDigitalIn frontBumper('G');
+// pros::ADIDigitalIn frontBumper('G');
 
-pros::ADIDigitalOut deploy('H');
+pros::ADIDigitalOut deploy({{ADI_EXPANDER_SMART_PORT,'g'}});
 
-pros::ADIGyro gyro('G' , 0.96);
+// pros::ADIGyro gyro('G' , 0.96);
 
 //Initialize pointer to zero so that it can be initialized in first call to getInstance
 LineTrack *LineTrack::instance = 0;
@@ -81,6 +81,8 @@ void initialize() {
 
 	leftIndexer.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	rightIndexer.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+
+	controller.clear();
 
 }
 

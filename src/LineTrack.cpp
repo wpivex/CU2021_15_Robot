@@ -60,8 +60,8 @@ void LineTrack::calibrateSensors(){
   ls4.calibrate();
   ls5.calibrate();
   ls6.calibrate();
-  ls7.calibrate();
-  ls8.calibrate();
+  // ls7.calibrate();
+  // ls8.calibrate();
 }
 
 void LineTrack::updateSensorVals(){
@@ -82,10 +82,10 @@ void LineTrack::updateSensorVals(){
   std::cout<<" "<<sensorVals[4];
   sensorVals[5] = ls6.get_value_calibrated();
   std::cout<<" "<<sensorVals[5];
-  sensorVals[6] = ls7.get_value_calibrated();
-  std::cout<<" "<<sensorVals[6];
-  sensorVals[7] = ls8.get_value_calibrated();
-  std::cout<<" "<<sensorVals[7];
+  // sensorVals[6] = ls7.get_value_calibrated();
+  // std::cout<<" "<<sensorVals[6];
+  // sensorVals[7] = ls8.get_value_calibrated();
+  // std::cout<<" "<<sensorVals[7];
 
   std::cout<<std::endl;
 }

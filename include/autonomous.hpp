@@ -30,6 +30,7 @@ void shoot2descore2();
 void odomTaskFn();
 
 void stop();
+void localizeOnCorner();
 void driveTarget(int target, float angle, int accuracy, int time, float max, bool slew);
 void driveTargetRelative(int target, int accuracy, int time);
 void driveTurn(int target, float angle, int accuracy, int time, float max, bool slew);
@@ -54,6 +55,7 @@ void indexBalls();
 float modulus(float a, float b);
 void auton();
 void MoveToPosition(float x, float y, int maxTime);
+double findMedian(std::vector<int> a,int n);
 
 void auxiliary();
 

@@ -102,7 +102,8 @@ extern pros::ADIAnalogIn ls6;
 extern pros::ADIAnalogIn ls7;
 extern pros::ADIAnalogIn ls8;
 
-extern pros::ADIUltrasonic ultrasonic;
+extern pros::ADIUltrasonic ultrasonicL;
+extern pros::ADIUltrasonic ultrasonicR;
 extern pros::ADIButton frontBumper;
 
 
