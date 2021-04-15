@@ -45,13 +45,15 @@ void Odometry::Stop(void)
 
 void Odometry::PrintData(void)
 {
-    pros::lcd::print(0, "X: %f", x);
-    pros::lcd::print(1, "Y: %f", y);
-    pros::lcd::print(2, "Theta: %f", getAngle());
-    pros::lcd::print(3, "Right Encoder: %d", rightEncoder.get_value());
-    pros::lcd::print(4, "Left Encoder: %d", leftEncoder.get_value());
-    pros::lcd::print(5, "Back Encoder: %d", backEncoder.get_value());
-
+    pros::lcd::print(0, "X: %.3f \t Y: %.3f \t T: %.3f", x, y, getAngle());
+    pros::lcd::print(1, "Right: %d \t Left: %d", rightEncoder.get_value(),leftEncoder.get_value());
+    LineTrack *lineController = lineController->getInstance();
+    pros::lcd::print(2, "1:%.4d\t 2:%.4d\t 3:%.4d\t 4:%.4d", lineController->sensorVals[0],lineController->sensorVals[1],lineController->sensorVals[2],lineController->sensorVals[3]);
+    pros::lcd::print(3, "5:%.4d\t 6:%.4d\t 7:%.4d\t 8:%.4d", lineController->sensorVals[4],lineController->sensorVals[5],lineController->sensorVals[6],lineController->sensorVals[7]);
+    pros::lcd::print(4, "TurnPower: %.3f", lineController->calcTurnSpeed());
+    pros::lcd::print(5, "Raw Error: %.3f", lineController->debugError);
+    pros::lcd::print(6, "Millis(): %d", pros::millis());
+    pros::lcd::print(7, "Sonar: %d", ultrasonic.get_value());
 
 }
 
@@ -79,10 +81,11 @@ void Odometry::UpdatePose()
 
         float velocity_left = ((leftEncoder.get_value() - leftEncoderPrev)/deltaTime) * (3.25 * M_PI) / 1024.0;
         float velocity_right = (rightEncoder.get_value() - rightEncoderPrev)/deltaTime * (3.25 * M_PI) / 1024.0;
-        float velocity_back = (backEncoder.get_value() - backEncoderPrev)/deltaTime * (3.25 * M_PI) / 1024.0;
+        // float velocity_back = (backEncoder.get_value() - backEncoderPrev)/deltaTime * (3.25 * M_PI) / 1024.0;
+        float velocity_back = 0;
         leftEncoderPrev = leftEncoder.get_value();
         rightEncoderPrev = rightEncoder.get_value();
-        backEncoderPrev = backEncoder.get_value();
+        // backEncoderPrev = backEncoder.get_value();
 
         if (velocity_left == velocity_right) {
             x += velocity_right * cos(theta) * deltaTime;// + velocity_back * sin(theta) * deltaTime;

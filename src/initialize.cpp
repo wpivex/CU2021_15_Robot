@@ -38,10 +38,11 @@ pros::Motor rightIndexer(8, pros::E_MOTOR_GEARSET_06, true, pros::E_MOTOR_ENCODE
 
 pros::ADIEncoder rightEncoder('E', 'F', true);
 pros::ADIEncoder leftEncoder('C', 'D', false);
-pros::ADIEncoder backEncoder('A', 'B', true);
+// pros::ADIEncoder backEncoder('A', 'B', true);
+pros::ADIUltrasonic ultrasonic ('A', 'B');
 
 int NUMBER_OF_SENSORS(8);
-int ADI_EXPANDER_SMART_PORT(1);
+int ADI_EXPANDER_SMART_PORT(5);
 																		//Tuple -> {3wire expander port, ADI port on exapnder}
 pros::ADIAnalogIn ls1({{ADI_EXPANDER_SMART_PORT,'a'}});
 pros::ADIAnalogIn ls2({{ADI_EXPANDER_SMART_PORT,'b'}});
@@ -54,10 +55,12 @@ pros::ADIAnalogIn ls8({{ADI_EXPANDER_SMART_PORT,'h'}});
 
 pros::ADIDigitalIn frontBumper('G');
 
-
 pros::ADIDigitalOut deploy('H');
 
 pros::ADIGyro gyro('G' , 0.96);
+
+//Initialize pointer to zero so that it can be initialized in first call to getInstance
+LineTrack *LineTrack::instance = 0;
 
 void setDrivePower(int forwardPower, int turnPower){
 	float leftVal = -(forwardPower+turnPower);
@@ -78,6 +81,7 @@ void initialize() {
 
 	leftIndexer.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	rightIndexer.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
+
 }
 
 /**

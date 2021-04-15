@@ -5,17 +5,26 @@
 
 class LineTrack{
 private:
+  static LineTrack *instance;
   const float SENSOR_IMBALANCE_OFFSET = 0;
-  const float MAX_TURN_EFFORT = 1;
+  const float MAX_TURN_EFFORT = 20;
+  bool isTwoLines = false;
+
+public:
   float kP;
   float kI;
   float kD;
-  bool isTwoLines = false;
+  float debugError = 0;
+  static LineTrack *getInstance() {
+     if (!instance){
+           instance = new LineTrack();
+     }
+     return instance;
+  }
   int sensorVals[8];
-
-public:
   //Construct with PID terms
-  LineTrack(float kP, float kI, float kD);
+
+  void setPIDConsts(float kP, float kI, float kD);
 
   //Call calirabte when the robot is not moving for 0.5 sec
   void calibrateSensors();

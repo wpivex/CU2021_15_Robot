@@ -20,7 +20,6 @@
 int side = 1;
 void autonomous() {
 	odom.Init();
-
 	//start the task for updating pose on the display;
 	pros::Task odomTask(odomTaskFn);
 	drivePID = pidInit (0.34, 0, 0.4, 0, 100.0,5,15);
@@ -75,40 +74,41 @@ void odomTaskFn() {
 // setIndexerSpeed(+); //Out
 
 void odomProgrammingSkills() {
+	LineTrack *lineController = lineController->getInstance();
+	lineController->calibrateSensors();
+	lineController->setPIDConsts(0.01, 0, 0);
 	Timer lineTrackTimer = Timer();
-																//    (kP, kI, kD)
-	LineTrack lineController = LineTrack(0.1, 0, 0);
 	intakeButDontShoot();
-	MoveToPosition(30, 0, 600); //Cut off short  - intake first ball
+	MoveToPosition(16, 0, 600); //Cut off short  - intake first ball
 	gyroTurn(-90, 0, 900);
 
 	//Option 1
 
-	lineTrackTimer.setTimerMS(800);
+	lineTrackTimer.setTimerMS(30000);
 	while(!lineTrackTimer.isExpired()){
-		//       (Forwards Power, Turn Power)
-		setDrivePower(30,lineController.calcTurnSpeed());
-		pros::delay(20);
+		//      NEGATIVE (Rev Power, Turn Power)
+		setDrivePower(-90,lineController->calcTurnSpeed());
+		pros::delay(60);
 	}
 	setDrivePower(0,0);
 
 	//Option 2
 
-	while(odom.getY() > -80){
-		//       (Forwards Power, Turn Power)
-		setDrivePower(30,lineController.calcTurnSpeed());
-		pros::delay(20);
-	}
-	setDrivePower(0,0);
-
-	//Option 3
-
-	while(!frontBumper.get_value()){
-		//       (Forwards Power, Turn Power)
-		setDrivePower(30,lineController.calcTurnSpeed());
-		pros::delay(20);
-	}
-	setDrivePower(0,0);
+	// while(odom.getY() > -80){
+	// 	//       (Forwards Power, Turn Power)
+	// 	setDrivePower(30,lineController->calcTurnSpeed());
+	// 	pros::delay(20);
+	// }
+	// setDrivePower(0,0);
+	//
+	// //Option 3
+	//
+	// while(!frontBumper.get_value()){
+	// 	//       (Forwards Power, Turn Power)
+	// 	setDrivePower(30,lineController->calcTurnSpeed());
+	// 	pros::delay(20);
+	// }
+	// setDrivePower(0,0);
 
 	// MoveToPosition(28, 28, 900); //Intake 2nd ball
 	// startIndexingTask(300, true); //(delay, turn intake on at the end)
