@@ -7,7 +7,7 @@ class Odometry{
     private:
         float x, y, theta;
         unsigned long time_prev = pros::millis(), time_now;
-        const float l = 7.08; //distance from wheel-to-wheel in m
+        const float l = 7.2; //distance from wheel-to-wheel in m
         // const float rB = -5.5;
         float leftEncoderPrev = 0;
         float rightEncoderPrev = 0;

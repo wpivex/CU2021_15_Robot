@@ -100,14 +100,16 @@ void odomProgrammingSkills() {
 	// lineController->calibrateSensors();
 	// lineController->setPIDConsts(0.01, 0, 0);
 	// Timer lineTrackTimer = Timer();
+	//
 
-	MoveToPosition(72, 0, 5600);
-	MoveToPosition(72, -72, 5600);
-	MoveToPosition(0, -72, 5600);
-	MoveToPosition(0,0,5600);
-	gyroTurn(0, 0, 2900);
-
-	pros::delay(300000);
+	//SQUARE TEST
+	// MoveToPosition(72, 0, 5600);
+	// MoveToPosition(72, -72, 5600);
+	// MoveToPosition(0, -72, 5600);
+	// MoveToPosition(0,0,5600);
+	// gyroTurn(0, 0, 2900);
+	//
+	// pros::delay(300000);
 
 
 
