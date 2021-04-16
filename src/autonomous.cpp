@@ -25,7 +25,8 @@ void autonomous() {
 	drivePID = pidInit (0.34, 0, 0.4, 0, 100.0,5,15);
 	gyroDrivePID = pidInit(0.7, 0, 0.4, 0, 40,999999,9999999);
 	// gyroPID = pidInit(1.62,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
-	 gyroPID = pidInit(5,  0, 0.5, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+	 // gyroPID = pidInit(5,  0, 0.5, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+ 	 gyroPID = pidInit(1.6,  0, 0.62, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
 //                        	P    I  D  idk idk idk idk
 //	odomDistancePID = pidInit (0, 0, 0, 0, 100.0,0.1,0.5);
 
@@ -47,8 +48,8 @@ void autonomous() {
 	odom.tarePosition();
 
 	//programmingSkills();
-	//odomProgrammingSkills();
-	gyroTurn(-135, 0, 100000);
+	odomProgrammingSkills();
+	// gyroTurn(-135, 0, 100000);
 	// MoveToPosition(60, 30, 3000);
 	// MoveToPosition(30, 60, 3000);
 	// MoveToPosition(0, 0, 3000);
@@ -76,7 +77,7 @@ void odomTaskFn() {
 //MAKE SURE THE ROBOT IS STATIONARY
 void localizeOnCorner(){
 	stop();
-	pros::delay(1500);
+	pros::delay(1000);
 	odom.setAngleDegrees(odom.getAngle()-90);
 
 	const int NUMBER_OF_SAMPLES = 10;
@@ -87,7 +88,7 @@ void localizeOnCorner(){
 		//25.4 is mm -> inches
 		leftVals[i] = ultrasonicL.get_value()/25.4;
 		rightVals[i] = ultrasonicR.get_value()/25.4;
-		pros::delay(50);
+		pros::delay(20);
 	}
 
 	odom.setY(findMedian(leftVals, NUMBER_OF_SAMPLES));
@@ -99,6 +100,18 @@ void odomProgrammingSkills() {
 	// lineController->calibrateSensors();
 	// lineController->setPIDConsts(0.01, 0, 0);
 	// Timer lineTrackTimer = Timer();
+
+	MoveToPosition(72, 0, 5600);
+	MoveToPosition(72, -72, 5600);
+	MoveToPosition(0, -72, 5600);
+	MoveToPosition(0,0,5600);
+	gyroTurn(0, 0, 2900);
+
+	pros::delay(300000);
+
+
+
+
 	odom.setAngleDegrees(180);
 	// pros::lcd::print(3, "Im here");
 	pros::delay(2000);
@@ -145,6 +158,46 @@ void odomProgrammingSkills() {
 	MoveToPosition(50,50, 5200);
 	MoveToPosition(20,20, 5200);
 
+
+	pros::delay(2000);
+	MoveToPosition(116,20, 5200);
+	gyroTurn(-45, 0,2600); //Face Goal
+
+
+	pros::delay(2000);
+	localizeOnCorner(); //goal 1
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
+
+	pros::delay(2000);
+	MoveToPosition(116,20, 5200);
+	gyroTurn(-45, 0,2600); //Face Goal
+
+
+	pros::delay(2000);
+	localizeOnCorner(); //goal 1
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
+
+	pros::delay(2000);
+	MoveToPosition(116,20, 5200);
+	gyroTurn(-45, 0,2600); //Face Goal
+
+
+	pros::delay(2000);
+	localizeOnCorner(); //goal 1
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
+
+	pros::delay(2000);
+	MoveToPosition(116,20, 5200);
+	gyroTurn(-45, 0,2600); //Face Goal
+
+
+	pros::delay(2000);
+	localizeOnCorner(); //goal 1
+	MoveToPosition(50,50, 5200);
+	MoveToPosition(20,20, 5200);
 	// shoot3descore2(); //goal 1
 	// setIntakeSpeed(-127); //o ut
 	// intakeAllForward(); //meaning spit out the top
