@@ -23,6 +23,11 @@ pidInit(/*PID pid,*/ float fKP, float fKI, float fKD, float fEpsilonInner, float
 	return pid;
 }
 
+void resetPID(PID pid) {
+	pid.lastValue = 0;
+	pid.sigma = 0;
+	pid.lastTime = pros::millis();
+}
 /**
 * calculate pid output
 *

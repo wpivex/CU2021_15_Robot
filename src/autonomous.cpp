@@ -25,17 +25,17 @@ void autonomous() {
 	drivePID = pidInit (0.34, 0, 0.4, 0, 100.0,5,15);
 	gyroDrivePID = pidInit(0.7, 0, 0.4, 0, 40,999999,9999999);
 	// gyroPID = pidInit(1.62,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
-	 // gyroPID = pidInit(5,  0, 0.5, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
- 	 gyroPID = pidInit(1.6,  0, 0.62, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+	 // gyroPID = pidInit(5,  0, 2.15, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
+ 	 gyroPID = pidInit(1.5,  0, 0.08, 0, 10,99999,999999); //1.6, 0, 0.62, 1.3,0,0.51
 //                        	P    I  D  idk idk idk idk
 //	odomDistancePID = pidInit (0, 0, 0, 0, 100.0,0.1,0.5);
 
 	odomDistancePID = pidInit (6, 0, 0.9, 0, 100.0,0.1,0.5);
-//	odomTurningPID = pidInit (0,  0, 0, 0, 10,99999,999999);
-	odomTurningPID = pidInit(1.7,  0, 0.06, 0, 10,99999,999999);
+	odomTurningPID = pidInit (1.5,  0, 0.08, 0, 10,99999,999999);
+//	odomTurningPID = pidInit(1.2,  3.5, 0.1, 0, 10,99999,999999);
 
 	distanceControl = slewRateInit(0.22);
-	turnControl = slewRateInit(0.5); //Probably unsued
+	turnControl = slewRateInit(100); //Probably unsued
 	//pros::lcd::clear();
 //	indexer.move(127);
 
@@ -49,8 +49,12 @@ void autonomous() {
 
 	//programmingSkills();
 	odomProgrammingSkills();
-	// gyroTurn(-135, 0, 100000);
-	// MoveToPosition(60, 30, 3000);
+	 // gyroTurn(135, 0, 3000);
+	 // gyroTurn(-135, 0, 3000);
+	 // gyroTurn(0, 0, 3000);
+
+
+//	MoveToPosition(20,-60, 5000);
 	// MoveToPosition(30, 60, 3000);
 	// MoveToPosition(0, 0, 3000);
 	// gyroTurn(0,0,2000);
@@ -77,7 +81,7 @@ void odomTaskFn() {
 //MAKE SURE THE ROBOT IS STATIONARY
 void localizeOnCorner(){
 	stop();
-	pros::delay(1000);
+	pros::delay(200);
 	odom.setAngleDegrees(odom.getAngle()-90);
 
 	const int NUMBER_OF_SAMPLES = 10;
@@ -100,220 +104,151 @@ void odomProgrammingSkills() {
 	// lineController->calibrateSensors();
 	// lineController->setPIDConsts(0.01, 0, 0);
 	// Timer lineTrackTimer = Timer();
-	//
 
-	//SQUARE TEST
-	// MoveToPosition(72, 0, 5600);
-	// MoveToPosition(72, -72, 5600);
-	// MoveToPosition(0, -72, 5600);
-	// MoveToPosition(0,0,5600);
-	// gyroTurn(0, 0, 2900);
-	//
-	// pros::delay(300000);
-
-
-
-
-	odom.setAngleDegrees(180);
+//	odom.setAngleDegrees(180);
 	// pros::lcd::print(3, "Im here");
-	pros::delay(2000);
 	intakeButDontShoot();
-	MoveToPosition(-16, 0, 600); //Cut off short  - intake first ball
-	gyroTurn(-135, 0, 2900);
-	MoveToPosition(-28, -28, 900); //Intake 2nd ball
-	startIndexingTask(300, true); //(delay, turn intake on at the end)
-	MoveToPosition(-17, -12, 800); //align with goal 1
-	setIntakeSpeed(-127); //In
+	MoveToPosition(12, 0, 600); //Cut off short  - intake first
+	MoveToPosition(23, 25, 1000); //Intake 2nd ball
+	startIndexingTask(600, true); //(delay, turn intake on at the end)
+	MoveToPosition(18, 10, 800); //align with goal 1
 
-	gyroTurn(-45, 0,600); //Face Goal
+	gyroTurn(135, 0,600); //Face Goal
 	setIntakeSpeed(127);//In
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
 
-	pros::delay(2000);
-	localizeOnCorner(); //takes 2 sec
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
-	pros::delay(2000);
-	MoveToPosition(116,20, 5200);
-	gyroTurn(-45, 0,2600); //Face Goal
+	odom.setAngleDegrees(odom.getAngle()+180);
+	localizeOnCorner();
+	MoveToPosition(5, 5, 1000);
+	shoot3descore2(); // goal 1
+	setIntakeSpeed(-127);
+	pros::Task task0{[=] {
+				pros::delay(400);
+				intakeAllBackward();
+	}};
 
-	pros::delay(2000);
-	localizeOnCorner(); //takes 2 sec //Goal 3
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
-	pros::delay(2000);
-	MoveToPosition(116,20, 5200);
-	gyroTurn(-45, 0,2600); //Face Goal
+	MoveToPosition(16, 16, 1000);
+	gyroTurn(40,0,500);
+	intakeButDontShoot();
+	MoveToPosition(65, 45.5, 2000); // ball before goal 2
+	gyroTurn(-90,0,900);
+	MoveToPosition(69, 13, 1500);
+	shoot1descore1();		//goal 2
+	pros::Task task1{[=] {
+				pros::delay(600);
+				intakeAllBackward();
+	}};
+	MoveToPosition(69, 24, 800);
 
-	pros::delay(2000);
-	localizeOnCorner(); //goal 7
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
-	pros::delay(2000);
-	MoveToPosition(116,20, 5200);
-	gyroTurn(-45, 0,2600); //Face Goal
+	gyroTurn(135,0,600);
+	gyroTurn(0,0,1200);
+	intakeButDontShoot();
+	MoveToPosition(100, 26, 1000);
+	MoveToPosition(123, 36, 1000);
+	startIndexingTask(300,true);
+	MoveToPosition(115, 23.5, 1200);
+	gyroTurn(-36,0,1100);
 
+//COORDINATE FRAME #2 STARTS HERE
+	localizeOnCorner();
+	MoveToPosition(6, 6, 800);
+	shoot2descore2(); 			// goal 3
+	setIntakeSpeed(-127);
+	pros::Task task2{[=] {
+				pros::delay(400);
+				intakeAllBackward();
+	}};
 
-	pros::delay(2000);
-	localizeOnCorner(); //goal 1
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
+	MoveToPosition(16, 16, 1000);
+	gyroTurn(40,0,1200);
+	intakeButDontShoot();
+	MoveToPosition(64, 49, 2000); // ball before goal 4
+	gyroTurn(-85,0,900);
+	startIndexingTask(500, true);
+	MoveToPosition(67, 15, 1500);
+	pros::delay(100);
+	shoot2descore1();		//goal 4
+	pros::Task task3{[=] {
+				pros::delay(150);
+				intakeAllBackward();
+	}};
+	MoveToPosition(76, 38, 1200);
+	gyroTurn(0,0,500);
+	intakeButDontShoot();
 
+	MoveToPosition(110, 41.5, 1500);
+	gyroTurn(-120,0,700);
+	MoveToPosition(104, 17, 1200);
+	MoveToPosition(115, 31, 1200);
+	gyroTurn(-35,0,1200);
 
-	pros::delay(2000);
-	MoveToPosition(116,20, 5200);
-	gyroTurn(-45, 0,2600); //Face Goal
+//COORDINATE FRAME 3 STARTS HERE
+odom.setAngleDegrees(odom.getAngle()-2);
+localizeOnCorner();
+MoveToPosition(7, 5, 800);
+shoot2descore2(); // goal 5
+pros::Task task4{[=] {
+			pros::delay(400);
+			intakeAllBackward();
+}};
 
+MoveToPosition(16, 16, 1000);
+gyroTurn(40,0,1200);
+intakeButDontShoot();
+MoveToPosition(61, 49, 2000); // ball before goal 6
+gyroTurn(-85,0,900);
 
-	pros::delay(2000);
-	localizeOnCorner(); //goal 1
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
+MoveToPosition(65, 12, 1500);
+shoot1descore1();		//goal 6
+pros::Task task6{[=] {
+			pros::delay(600);
+			intakeAllBackward();
+}};
+MoveToPosition(65, 22, 800);
 
-	pros::delay(2000);
-	MoveToPosition(116,20, 5200);
-	gyroTurn(-45, 0,2600); //Face Goal
+gyroTurn(135,0,600);
+gyroTurn(0,0,1200);
+intakeButDontShoot();
+MoveToPosition(100, 24, 1000);
+MoveToPosition(123, 33, 1000);
+startIndexingTask(300,true);
+MoveToPosition(110, 20, 1200);
+gyroTurn(-36,0,1400);
 
+//COORDINATE FRAME #4 STARTS HERE
+localizeOnCorner();
+MoveToPosition(6, 6, 800);
+shoot2descore2(); // goal 3
+setIntakeSpeed(-127);
+pros::Task task7{[=] {
+			pros::delay(400);
+			intakeAllBackward();
+}};
 
-	pros::delay(2000);
-	localizeOnCorner(); //goal 1
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
+shoot2descore2(); // goal 7
+setIntakeSpeed(-127);
+pros::Task task8{[=] {
+			pros::delay(400);
+			intakeAllBackward();
+}};
 
-	pros::delay(2000);
-	MoveToPosition(116,20, 5200);
-	gyroTurn(-45, 0,2600); //Face Goal
+MoveToPosition(16, 16, 1000);
+gyroTurn(0,0,1200);
+intakeButDontShoot();
+MoveToPosition(64, 24, 2000); // ball before goal 8
 
+gyroTurn(-85,0,900);
 
-	pros::delay(2000);
-	localizeOnCorner(); //goal 1
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
+MoveToPosition(65, 13, 1500);
+shoot1descore1();		//goal 8
+pros::Task task9{[=] {
+			pros::delay(600);
+			intakeAllBackward();
+}};
+MoveToPosition(65, 22, 800);
 
-	pros::delay(2000);
-	MoveToPosition(116,20, 5200);
-	gyroTurn(-45, 0,2600); //Face Goal
-
-
-	pros::delay(2000);
-	localizeOnCorner(); //goal 1
-	MoveToPosition(50,50, 5200);
-	MoveToPosition(20,20, 5200);
-	// shoot3descore2(); //goal 1
-	// setIntakeSpeed(-127); //o ut
-	// intakeAllForward(); //meaning spit out the top
-	//
-	// gyroTurn(-65, 0, 500); //cut short
-	// pros::Task task{[=] {
-	// 			pros::delay(300);
-	// 			intakeButDontShoot();
-	// }};
-	// MoveToPosition(40, -31, 1300); //undershhot so we get a 90 degree approch
-	// gyroTurn(-179, 0, 500);
-	// MoveToPosition(-3, -34, 1100);
-	// shoot1descore1(); //at goal 2
-	// pros::Task task2{[=] {
-	// 			pros::delay(300);
-	// 			intakeAllBackward();
-	// }};
-	// MoveToPosition(12, -36, 450);
-	// gyroTurn(-90, 0, 700);
-	// intakeButDontShoot();
-	// MoveToPosition(12, -72, 1000);
-	// MoveToPosition(20, -98, 1000);//ball at the wall
-	// MoveToPosition(10, -78, 1000);//back up in front of goal 3
-	// startIndexingTask(0, true);
-	// gyroTurn(-145, 0, 700);
-	// MoveToPosition(-5.5, -94, 900);
-	// shoot2descore2(); //goal 3
-	// setIntakeSpeed(-127);
-	// pros::Task task4{[=] {
-	// 			pros::delay(400);
-	// 			intakeAllBackward();
-	// }};
-	// MoveToPosition(20, -75, 1200);
-	// gyroTurn(20, 0, 1300); //cut off
-	// intakeButDontShoot();
-	// MoveToPosition(54.5, -56, 1200);
-	// gyroTurn(-170, 0, 500);
-	// intakeButDontShoot();
-	// MoveToPosition(58, -95, 1200);
-	//
-	// shoot2descore1(); //goal 4
-	// setIntakeSpeed(-127);
-	// pros::Task task3{[=] {
-	// 			pros::delay(400);
-	// 			intakeAllBackward();
-	// }};
-	// MoveToPosition(70, -72, 1000);
-	// intakeButDontShoot();
-	//
-	// gyroTurn(90,0,500);
-	// MoveToPosition(102, -70.5, 1000);
-	// gyroTurn(-90,0,500);
-	// MoveToPosition(90, -98, 1000);
-	// startIndexingTask(300, true);
-	// MoveToPosition(105, -88, 1000);
-	// gyroTurn(-45,0,500); //line up with 5
-	// MoveToPosition(115, -97, 1000);
-	//
-	// shoot2descore2(); //goal 5
-	// setIntakeSpeed(-127);
-	// pros::Task task5{[=] {
-	// 			pros::delay(400);
-	// 			intakeAllBackward();
-	// }};
-	// MoveToPosition(96, -74, 1000);
-	//
-	// gyroTurn(120,0,1200);
-	// intakeButDontShoot();
-	// MoveToPosition(74, -38, 1250);
-	// gyroTurn(90,0,400);
-	// startIndexingTask(300, true);
-	// MoveToPosition(114, -35, 2000);
-	//
-	// shoot1descore1();
-	// //goal 6
-	// pros::Task task6{[=] {
-	// 			pros::delay(300);
-	// 			intakeAllBackward();
-	// }};
-	// MoveToPosition(98, -35, 450);
-	// gyroTurn(-270, 0, 700);
-	// intakeButDontShoot();
-	// MoveToPosition(98, 0, 1000);
-	//
-	// MoveToPosition(87, 28, 1000);
-	//
-	// //line up with goal 7
-	// MoveToPosition(100, 10, 1000);
-	// startIndexingTask(300, true);
-	// gyroTurn(45,0,600);
-	//
-	//
-	// MoveToPosition(113, 24, 1000);
-	//
-	// shoot2descore2();
-	// setIntakeSpeed(-127); //goal 7
-	// MoveToPosition(101, 13, 1000);
-	//
-	//
-	// MoveToPosition(48, 0, 10000);
-	// MoveToPosition(24, 0, 3000);
-	// gyroTurn(0, 0, 3000);
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	//
-	// intakeAllStop();
-
+intakeAllStop();
 }
 void startIndexingTask(int time, bool intakesOn) {
 	pros::delay(time);
@@ -349,7 +284,7 @@ void indexBalls() { //takes 1240ms
 
 	setConveyorSpeed(-30); //Up
 
-	setIntakeSpeed(-127);//In
+	setIndexerSpeed(-127);//In
 
 	pros::delay(140);
 
@@ -506,7 +441,7 @@ void intakeButDontShoot(){
 void shoot1descore1() {
 	setConveyorSpeed(127); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(300);
+	pros::delay(280);
 
 	setConveyorSpeed(40); //Up
 	setIndexerSpeed(0); //Out
@@ -514,21 +449,26 @@ void shoot1descore1() {
 }
 
 void shoot2descore1() {
-	//first ball
 	setConveyorSpeed(100); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(180);
+	pros::delay(235);
 	setConveyorSpeed(0); //Up
-	setIndexerSpeed(0); //Out
-	pros::delay(500);
+	setIndexerSpeed(-40); //Out
+
+	pros::delay(200);
+	setIndexerSpeed(0); //stop
+	setConveyorSpeed(-40);
+	pros::delay(150);
+	setIntakeSpeed(0);
 
 
   //second ball
-	setConveyorSpeed(100); //Up
+	setConveyorSpeed(127); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(200);
+	pros::delay(350);
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
+	setIntakeSpeed(-127);
 }
 
 void shoot2descore2() {
@@ -558,7 +498,7 @@ void shoot3descore2() {
 	setIntakeSpeed(127);//Out
 
 	//first ball
-	setConveyorSpeed(100); //Up
+	setConveyorSpeed(127); //Up
 	setIndexerSpeed(127); //Out
 	pros::delay(200);
 	setConveyorSpeed(0); //Up
@@ -567,22 +507,24 @@ void shoot3descore2() {
 	setIndexerSpeed(-127); //In
 	pros::delay(200);
 
+
   //second ball
 	setConveyorSpeed(100); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(200);
+	pros::delay(300);
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
-	pros::delay(350);
-	setIntakeSpeed(0);
+	pros::delay(200);
 
+		setIntakeSpeed(0);
+	pros::delay(150);
 	//third ball
 	setConveyorSpeed(100); //Up
 	setIndexerSpeed(127); //Out
-	pros::delay(400);
+	pros::delay(300);
 	setConveyorSpeed(0); //Up
 	setIndexerSpeed(0); //Out
-	pros::delay(300);
+//	pros::delay(300);
 }
 
 void MoveToPosition(float targetX, float targetY, int maxTime)
@@ -635,9 +577,13 @@ void MoveToPosition(float targetX, float targetY, int maxTime)
         turnPower = pidCalculate(odomTurningPID, targetAngle, referenceAngle);
         turnPower = slewRateCalculate(turnControl, turnPower);
 
+
+				if (distance<12) {
+					turnPower = 0;
+				}
 				setDrivePower(power, turnPower);
 
-        if (sqrt(pow(targetY-odom.getY(),2) + pow(targetX-odom.getX(),2)) < 0.6 || pros::millis() - startTime > maxTime) {
+        if (sqrt(pow(targetY-odom.getY(),2) + pow(targetX-odom.getX(),2)) < 1 || pros::millis() - startTime > maxTime) {
             repsAtTarget++;
         }
         else {
@@ -651,6 +597,8 @@ void MoveToPosition(float targetX, float targetY, int maxTime)
     }
     slewRateReset(distanceControl);
 		slewRateReset(turnControl);
+		resetPID(odomTurningPID);
+		resetPID(odomDistancePID);
 
     stop();
 }
@@ -737,7 +685,19 @@ void gyroTurn(float target, int accuracy, int time, bool precise) {
 	//	pros::lcd::print(7, "Angle: %f", odom.getAngle());
 		// auxiliary();
 		// calculate the desired motor value based on the sensor value relative to the target
-		float drive = pidCalculate(gyroPID, target,odom.getAngle())*((precise)? 0.75: 1);
+
+		float referenceAngle = 0;
+		if (target-odom.getAngle()>180) {
+				referenceAngle = odom.getAngle()+360;
+		}
+		else if (target-odom.getAngle()<-180) {
+				referenceAngle = odom.getAngle()-360;
+		}
+		else {
+
+				referenceAngle = odom.getAngle();
+		}
+		float drive = pidCalculate(gyroPID, target,referenceAngle);
 	//	drive = slewRateCalculate(drive);
 	//	drive = ((fabs(gyro.get_value()/10.0-target)>180)? -1 : 1)*drive;
 	frontLeft.move(-drive);
@@ -764,6 +724,7 @@ void gyroTurn(float target, int accuracy, int time, bool precise) {
 	}
 //	LD.set_zero_position(LD.get_position()-RD.get_position()); //zero the value of the drive encoder
   //RD.set_zero_position(LD.get_position()-RD.get_position());
+	resetPID(gyroPID);
 	stop();
 }
 
