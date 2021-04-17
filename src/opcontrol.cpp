@@ -3,9 +3,8 @@
 
 
 void opcontrol() {
-
-	deploy.set_value(true);
-	deployed = true;
+	// deploy.set_value(true);
+	// deployed = true;
 
 	while (true) {
 		// pros::lcd::print(0, "Right Encoder: %d", rightEncoder.get_value());
@@ -24,7 +23,7 @@ void opcontrol() {
 
 		handleIntakes();
 
-		if (controller.get_digital_new_press(DIGITAL_LEFT)) {
+		if (controller.get_digital_new_press(DIGITAL_RIGHT)) {
 			deployed = !deployed;
 			deploy.set_value(deployed);
 		}

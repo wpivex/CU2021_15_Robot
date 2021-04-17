@@ -50,7 +50,7 @@ void Odometry::PrintData(void)
 
 
     // controller.set
-    pros::lcd::print(1, "Right: %d \t Left: %d", rightEncoder.get_value(),leftEncoder.get_value());
+    pros::lcd::print(3, "Right: %d \t Left: %d", rightEncoder.get_value(),leftEncoder.get_value());
     // LineTrack *lineController = lineController->getInstance();
     // pros::lcd::print(2, "1:%.4d\t 2:%.4d\t 3:%.4d\t 4:%.4d", lineController->sensorVals[0],lineController->sensorVals[1],lineController->sensorVals[2],lineController->sensorVals[3]);
     // pros::lcd::print(3, "5:%.4d\t 6:%.4d\t 7:%.4d\t 8:%.4d", lineController->sensorVals[4],lineController->sensorVals[5],lineController->sensorVals[6],lineController->sensorVals[7]);

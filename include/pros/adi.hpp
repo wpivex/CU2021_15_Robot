@@ -556,8 +556,8 @@ class ADIUltrasonic : private ADIPort {
 	 *
 	 * \param port_tuple
 	 *        The tuple of the smart port number, the port connected to the orange
-	 * 		  OUTPUT cable (1, 3, 5, 7 or 'A', 'C', 'E', 'G'), and the port 
-	 * 		  connected to the yellow INPUT cable (the next) highest port 
+	 * 		  OUTPUT cable (1, 3, 5, 7 or 'A', 'C', 'E', 'G'), and the port
+	 * 		  connected to the yellow INPUT cable (the next) highest port
 	 * 		  following port_ping).
 	 */
 	ADIUltrasonic(ext_adi_port_tuple_t port_tuple);

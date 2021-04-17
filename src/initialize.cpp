@@ -40,10 +40,12 @@ pros::ADIEncoder rightEncoder('E', 'F', true);
 pros::ADIEncoder leftEncoder('C', 'D', false);
 // pros::ADIEncoder backEncoder('A', 'B', true);
 pros::ADIUltrasonic ultrasonicL ('A', 'B');
-pros::ADIUltrasonic ultrasonicR ('G', 'H');
+// pros::ADIUltrasonic ultrasonicR ('G', 'H');
 
 int NUMBER_OF_SENSORS(8);
 int ADI_EXPANDER_SMART_PORT(19);
+
+pros::ADIUltrasonic ultrasonicR ({{ADI_EXPANDER_SMART_PORT,'a','b'}});
 																		//Tuple -> {3wire expander port, ADI port on exapnder}
 pros::ADIAnalogIn ls1({{ADI_EXPANDER_SMART_PORT,'a'}});
 pros::ADIAnalogIn ls2({{ADI_EXPANDER_SMART_PORT,'b'}});
@@ -56,7 +58,7 @@ pros::ADIAnalogIn ls6({{ADI_EXPANDER_SMART_PORT,'f'}});
 // pros::ADIDigitalIn frontBumper('G');
 pros::ADIDigitalIn leftBumper({{ADI_EXPANDER_SMART_PORT,'f'}});
 pros::ADIDigitalIn rightBumper({{ADI_EXPANDER_SMART_PORT,'g'}});
-pros::ADIDigitalOut deploy({{ADI_EXPANDER_SMART_PORT,'h'}});
+pros::ADIDigitalOut deploy('H');
 
 // pros::ADIGyro gyro('G' , 0.96);
 
@@ -87,8 +89,9 @@ void setLeftPower(int forwardPower) {
 }
 
 void initialize() {
+	deploy.set_value(false);
 	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Hello PROS User!");
+	pros::lcd::set_text(4, "In Initialize");
 
 	pros::lcd::register_btn1_cb(on_center_button);
 
@@ -103,7 +106,10 @@ void initialize() {
  * the VEX Competition Switch, following either autonomous or opcontrol. When
  * the robot is enabled, this task will exit.
  */
-void disabled() {}
+void disabled() {
+	pros::lcd::set_text(4, "In Disabled");
+	deploy.set_value(false);
+}
 
 /**
  * Runs after initialize(), and before autonomous when connected to the Field
@@ -115,4 +121,7 @@ void disabled() {}
  * starts.
  */
 
-void competition_initialize() {}
+void competition_initialize() {
+	pros::lcd::set_text(4, "In competition_initialize()");
+	deploy.set_value(false);
+}
