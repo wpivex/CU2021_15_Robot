@@ -41,8 +41,8 @@ float
 pidCalculate(PID pid, float fSetPoint, float fProcessVariable) {
 	pros::lcd::print(2, "kP: %f\n", pid.kP);
   float fDeltaTime = (float)(pros::millis() - pid.lastTime) / 1000.0;
-	pid.lastTime = pros::millis();
 	pros::lcd::print(3, "LastTIme: %f\n", pid.lastTime);
+	pid.lastTime = pros::millis();
 
 	float fDeltaPV = 0;
 	if(fDeltaTime > 0)
