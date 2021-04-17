@@ -204,7 +204,7 @@ void odomProgrammingSkills() {
 	gyroTurn(0,0,1200);
 	intakeButDontShoot();
 	MoveToPosition(110, 13, 1000, true);
-	MoveToPosition(120, 23, 3000, false);//the really broken one
+	MoveToPosition(122, 23, 3000, false);//the really broken one
 	startIndexingTask(300,true);
 	MoveToPosition(112, 15, 1200, true);
 	gyroTurn(-45,0,1100);
@@ -264,10 +264,10 @@ pros::Task task4{[=] {
 MoveToPosition(16, 16, 1000, true);
 gyroTurn(40,0,1200);
 intakeButDontShoot();
-MoveToPosition(61, 37, 8000, false); // ball before goal 6
+MoveToPosition(61, 37, 4000, false); // ball before goal 6
 gyroTurn(-85,0,900);
 
-MoveToPosition(61, 7, 2000, true); // ball before goal 6
+MoveToPosition(61, 7, 2000, true); // approach
 MoveToPosition(61, 3, 800, true); // ball before goal 6
 
 shoot1descore1();		//goal 6

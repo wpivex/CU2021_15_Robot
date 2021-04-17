@@ -93,7 +93,6 @@ void initialize() {
 	pros::lcd::register_btn1_cb(on_center_button);
 
 	deploy.set_value(true);
-	deployed = true;
 
 	leftIndexer.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
 	rightIndexer.set_brake_mode(pros::E_MOTOR_BRAKE_BRAKE);
