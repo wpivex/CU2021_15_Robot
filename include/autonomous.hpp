@@ -56,7 +56,7 @@ void waitForButton();
 
 float modulus(float a, float b);
 void auton();
-void MoveToPosition(float x, float y, int maxTime);
+void MoveToPosition(float x, float y, int maxTime, bool notSeperateTurn);
 double findMedian(std::vector<int> a,int n);
 
 void auxiliary();
