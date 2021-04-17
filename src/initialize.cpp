@@ -43,7 +43,7 @@ pros::ADIUltrasonic ultrasonicL ('A', 'B');
 pros::ADIUltrasonic ultrasonicR ('G', 'H');
 
 int NUMBER_OF_SENSORS(8);
-int ADI_EXPANDER_SMART_PORT(5);
+int ADI_EXPANDER_SMART_PORT(19);
 																		//Tuple -> {3wire expander port, ADI port on exapnder}
 pros::ADIAnalogIn ls1({{ADI_EXPANDER_SMART_PORT,'a'}});
 pros::ADIAnalogIn ls2({{ADI_EXPANDER_SMART_PORT,'b'}});
@@ -54,8 +54,9 @@ pros::ADIAnalogIn ls6({{ADI_EXPANDER_SMART_PORT,'f'}});
 // pros::ADIAnalogIn ls7({{ADI_EXPANDER_SMART_PORT,'g'}});
 
 // pros::ADIDigitalIn frontBumper('G');
-
-pros::ADIDigitalOut deploy({{ADI_EXPANDER_SMART_PORT,'g'}});
+pros::ADIDigitalIn leftBumper({{ADI_EXPANDER_SMART_PORT,'f'}});
+pros::ADIDigitalIn rightBumper({{ADI_EXPANDER_SMART_PORT,'g'}});
+pros::ADIDigitalOut deploy({{ADI_EXPANDER_SMART_PORT,'h'}});
 
 // pros::ADIGyro gyro('G' , 0.96);
 
@@ -71,6 +72,18 @@ void setDrivePower(int forwardPower, int turnPower){
 	frontRight.move(rightVal);
 	middleRight.move(rightVal);
 	backRight.move(rightVal);
+}
+
+void setRightPower(int forwardPower) {
+	frontRight.move(forwardPower);
+	middleRight.move(forwardPower);
+	backRight.move(forwardPower);
+}
+
+void setLeftPower(int forwardPower) {
+	frontLeft.move(forwardPower);
+	middleLeft.move(forwardPower);
+	backLeft.move(forwardPower);
 }
 
 void initialize() {

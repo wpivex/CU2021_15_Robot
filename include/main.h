@@ -104,11 +104,14 @@ extern pros::ADIAnalogIn ls8;
 
 extern pros::ADIUltrasonic ultrasonicL;
 extern pros::ADIUltrasonic ultrasonicR;
-extern pros::ADIButton frontBumper;
+extern pros::ADIButton leftBumper;
+extern pros::ADIButton rightBumper;
 
 
 double flywheelCalculate(double target);
 void setDrivePower(int forwardPower, int turnPower);
+void setLeftPower(int forwardPower);
+void setRightPower(int forwardPower);
 void autonomous(void);
 void initialize(void);
 void disabled(void);

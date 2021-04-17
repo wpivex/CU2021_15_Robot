@@ -39,8 +39,9 @@ void resetPID(PID pid) {
 */
 float
 pidCalculate(PID pid, float fSetPoint, float fProcessVariable) {
-  	pros::lcd::print(5, "kP: %f\n", pid.kP);
+	pros::lcd::print(2, "kP: %f\n", pid.kP);
   float fDeltaTime = (float)(pros::millis() - pid.lastTime) / 1000.0;
+	pros::lcd::print(3, "DeltaT: %f\n", fDeltaTime);
 	pid.lastTime = pros::millis();
 
 	float fDeltaPV = 0;

@@ -30,7 +30,8 @@ void shoot2descore2();
 void odomTaskFn();
 
 void stop();
-void localizeOnCorner();
+void localizePosOnCorner();
+void localizeAngleOnCorner();
 void driveTarget(int target, float angle, int accuracy, int time, float max, bool slew);
 void driveTargetRelative(int target, int accuracy, int time);
 void driveTurn(int target, float angle, int accuracy, int time, float max, bool slew);
@@ -51,6 +52,7 @@ void intakeAllForward();
 void intakeAllBackward();
 void intakeAllStop();
 void indexBalls();
+void waitForButton();
 
 float modulus(float a, float b);
 void auton();
