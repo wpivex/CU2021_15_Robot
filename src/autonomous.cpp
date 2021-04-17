@@ -198,13 +198,13 @@ void odomProgrammingSkills() {
 				pros::delay(600);
 				intakeAllBackward();
 	}};
-	MoveToPosition(69, 13, 800, true, false);
+	MoveToPosition(69, 13, 1200, true, false);
 
 	gyroTurn(135,0,600);
 	gyroTurn(0,0,1200);
 	intakeButDontShoot();
 	MoveToPosition(110, 13, 1000, true, false);
-	MoveToPosition(124, 21, 2000, false, false);
+	MoveToPosition(120, 23, 3000, false, false);
 	startIndexingTask(300,true);
 	MoveToPosition(112, 15, 1200, true, false);
 	gyroTurn(-45,0,1100);
@@ -230,7 +230,7 @@ void odomProgrammingSkills() {
 	gyroTurn(-85,0,900);
 	startIndexingTask(500, true);
 	MoveToPosition(65, 15, 1500, true, false);
-	MoveToPosition(65, 5, 600, true, true);
+	MoveToPosition(65, 5, 800, true, true);
 	// waitForButton();
 	shoot2descore1();		//goal 4
 	pros::Task task3{[=] {
@@ -254,7 +254,7 @@ localizePosOnCorner();
 // localizeAngleOnCorner();
 // waitForButton();
 MoveToPosition(40, 40, 3000, true);
-MoveToPosition(5, 5, 1000, true);
+MoveToPosition(5, 5, 2000, true);
 shoot2descore2(); // goal 5
 pros::Task task4{[=] {
 			pros::delay(400);
@@ -268,7 +268,7 @@ MoveToPosition(61, 37, 8000, true, false); // ball before goal 6
 gyroTurn(-85,0,900);
 
 MoveToPosition(61, 7, 2000, true, false);
-MoveToPosition(61, 3, 500, true, true); // ball before goal 6
+MoveToPosition(61, 3, 800, true, true); // ball before goal 6
 shoot1descore1();		//goal 6
 pros::Task task6{[=] {
 			pros::delay(600);
@@ -288,7 +288,7 @@ gyroTurn(-45,0,1100);
 //COORDINATE FRAME #4 STARTS HERE
 localizePosOnCorner();
 MoveToPosition(40, 40, 3000, true);
-MoveToPosition(5, 5, 1000, true);
+MoveToPosition(5, 5, 2000, true);
 // waitForButton();
 // localizeAngleOnCorner();
 // waitForButton();
@@ -303,7 +303,7 @@ pros::Task task7{[=] {
 MoveToPosition(16, 16, 1000, true, false);
 gyroTurn(0,0,1200);
 intakeButDontShoot();
-MoveToPosition(66, 42.5, 6000, true, false); // ball before goal 8
+MoveToPosition(66, 42.5, 6000, false, false); // ball before goal 8
 
 gyroTurn(-90,0,900);
 
