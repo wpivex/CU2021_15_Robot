@@ -705,7 +705,7 @@ void gyroTurn(float target, int accuracy, int time, bool precise) {
 
 				referenceAngle = odom.getAngle();
 		}
-		float drive = pidCalculate(gyroPID, target,referenceAngle);
+		float drive = pidCalculate(&gyroPID, target,referenceAngle);
 	//	drive = slewRateCalculate(drive);
 	//	drive = ((fabs(gyro.get_value()/10.0-target)>180)? -1 : 1)*drive;
 	frontLeft.move(-drive);
