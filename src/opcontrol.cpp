@@ -16,7 +16,7 @@ void opcontrol() {
 		double left = controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);
 		double right = -controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);
 		frontLeft.move(left);
-	  middleLeft.move(left);
+	  	middleLeft.move(left);
 		backLeft.move(left);
 		frontRight.move(right);
 		middleRight.move(right);
