@@ -19,7 +19,6 @@
 
 int side = 1;
 void autonomous() {
-	deploy.set_value(true);
 	// deploy.set_value(0);
 	odom.Init();
 	//start the task for updating pose on the display;
@@ -166,7 +165,6 @@ void odomProgrammingSkills() {
 	// pros::lcd::print(3, "Im here");
 	intakeButDontShoot();
 	MoveToPosition(12, 0, 600, true, false); //Cut off short  - intake first
-	MoveToPosition(23, 25, 1000, true, false); //Intake 2nd ball
 	startIndexingTask(600, true); //(delay, turn intake on at the end)
 	MoveToPosition(18, 10, 800, true, false); //align with goal 1
 
@@ -182,7 +180,7 @@ void odomProgrammingSkills() {
 	MoveToPosition(5, 5, 1500, true, true);
 	// waitForButton();
 	// localizeAngleOnCorner();
-	shoot3descore2(); // goal 1
+	shoot2descore2(); // goal 1
 	setIntakeSpeed(-127);
 	pros::Task task0{[=] {
 				pros::delay(400);
@@ -208,11 +206,8 @@ void odomProgrammingSkills() {
 	gyroTurn(135,0,600);
 	gyroTurn(0,0,1100);
 	intakeButDontShoot();
-	MoveToPosition(110, 13, 1000, true, false);
-															//Sepearte +500ms
-	MoveToPosition(122, 23, 1500, false, false);
-	startIndexingTask(300,true);
 	MoveToPosition(112, 15, 1200, true, false);
+	startIndexingTask(300,true);
 	gyroTurn(-45,0,1100);
 
 //COORDINATE FRAME #2 STARTS HERE

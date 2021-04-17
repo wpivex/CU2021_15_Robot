@@ -40,12 +40,12 @@ pros::ADIEncoder rightEncoder('E', 'F', true);
 pros::ADIEncoder leftEncoder('C', 'D', false);
 // pros::ADIEncoder backEncoder('A', 'B', true);
 pros::ADIUltrasonic ultrasonicL ('A', 'B');
-// pros::ADIUltrasonic ultrasonicR ('G', 'H');
+pros::ADIUltrasonic ultrasonicR ('G', 'H');
 
 int NUMBER_OF_SENSORS(8);
 int ADI_EXPANDER_SMART_PORT(19);
 
-pros::ADIUltrasonic ultrasonicR ({{ADI_EXPANDER_SMART_PORT,'a','b'}});
+// pros::ADIUltrasonic ultrasonicR ({{ADI_EXPANDER_SMART_PORT,'a','b'}});
 																		//Tuple -> {3wire expander port, ADI port on exapnder}
 pros::ADIAnalogIn ls1({{ADI_EXPANDER_SMART_PORT,'a'}});
 pros::ADIAnalogIn ls2({{ADI_EXPANDER_SMART_PORT,'b'}});
@@ -56,8 +56,8 @@ pros::ADIAnalogIn ls6({{ADI_EXPANDER_SMART_PORT,'f'}});
 // pros::ADIAnalogIn ls7({{ADI_EXPANDER_SMART_PORT,'g'}});
 
 // pros::ADIDigitalIn frontBumper('G');
-pros::ADIDigitalIn leftBumper({{ADI_EXPANDER_SMART_PORT,'f'}});
-pros::ADIDigitalIn rightBumper({{ADI_EXPANDER_SMART_PORT,'g'}});
+pros::ADIDigitalIn leftBumper({{ADI_EXPANDER_SMART_PORT,'g'}});
+pros::ADIDigitalIn rightBumper({{ADI_EXPANDER_SMART_PORT,'f'}});
 pros::ADIDigitalOut deploy('H');
 
 // pros::ADIGyro gyro('G' , 0.96);
