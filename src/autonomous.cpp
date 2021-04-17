@@ -50,6 +50,7 @@ void autonomous() {
 	odom.tarePosition();
 
 	//programmingSkills();
+	intialize();
 	odomProgrammingSkills();
 	 // gyroTurn(135, 0, 3000);
 	 // gyroTurn(-135, 0, 3000);
