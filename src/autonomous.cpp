@@ -204,7 +204,7 @@ void odomProgrammingSkills() {
 	gyroTurn(0,0,1200);
 	intakeButDontShoot();
 	MoveToPosition(110, 13, 1000, true, false);
-	MoveToPosition(116, 20, 4000, false, false);
+	MoveToPosition(124, 21, 2000, false, false);
 	startIndexingTask(300,true);
 	MoveToPosition(112, 15, 1200, true, false);
 	gyroTurn(-45,0,1100);
@@ -226,12 +226,11 @@ void odomProgrammingSkills() {
 	MoveToPosition(16, 16, 1000, true, false);
 	gyroTurn(40,0,1200);
 	intakeButDontShoot();
-	MoveToPosition(64, 41, 2000, true, false); // ball before goal 4
+	MoveToPosition(66, 39, 2000, true, false); // ball before goal 4
 	gyroTurn(-85,0,900);
 	startIndexingTask(500, true);
-	MoveToPosition(67, 15, 1500, true, false);
-	pros::delay(100);
-	MoveToPosition(67, 5, 600, true, true);
+	MoveToPosition(65, 15, 1500, true, false);
+	MoveToPosition(65, 5, 600, true, true);
 	// waitForButton();
 	shoot2descore1();		//goal 4
 	pros::Task task3{[=] {
@@ -242,10 +241,10 @@ void odomProgrammingSkills() {
 	gyroTurn(0,0,500);
 	intakeButDontShoot();
 
-	MoveToPosition(110, 41.5, 1500, true, false);
+	MoveToPosition(120, 41.5, 1500, true, false);
 	gyroTurn(-120,0,700);
-	MoveToPosition(104, 17, 1200, true, false);
-	MoveToPosition(115, 31, 1200, true, true);
+	MoveToPosition(100, -5, 1200, true, false);
+	MoveToPosition(115, 5, 1200, true, true);
 	gyroTurn(-35,0,1200);
 
 //COORDINATE FRAME 3 STARTS HERE
@@ -254,6 +253,8 @@ localizePosOnCorner();
 // waitForButton();
 // localizeAngleOnCorner();
 // waitForButton();
+MoveToPosition(40, 40, 3000, true);
+MoveToPosition(5, 5, 1000, true);
 shoot2descore2(); // goal 5
 pros::Task task4{[=] {
 			pros::delay(400);
@@ -263,43 +264,38 @@ pros::Task task4{[=] {
 MoveToPosition(16, 16, 1000, true, false);
 gyroTurn(40,0,1200);
 intakeButDontShoot();
-MoveToPosition(61, 49, 2000, true, false); // ball before goal 6
+MoveToPosition(61, 37, 8000, true, false); // ball before goal 6
 gyroTurn(-85,0,900);
 
-MoveToPosition(65, 12, 1500, true, true);
-waitForButton();
+MoveToPosition(61, 7, 2000, true, false);
+MoveToPosition(61, 3, 500, true, true); // ball before goal 6
 shoot1descore1();		//goal 6
 pros::Task task6{[=] {
 			pros::delay(600);
 			intakeAllBackward();
 }};
-MoveToPosition(65, 22, 800, true, false);
+MoveToPosition(69, 13, 800, true, false);
 
 gyroTurn(135,0,600);
 gyroTurn(0,0,1200);
 intakeButDontShoot();
-MoveToPosition(100, 24, 1000, true, false);
-MoveToPosition(123, 33, 1000, true, false);
+MoveToPosition(110, 13, 1000, true, false);
+MoveToPosition(121, 20, 4000, true, false);
 startIndexingTask(300,true);
-MoveToPosition(110, 20, 1200, true, true);
-gyroTurn(-36,0,1400);
+MoveToPosition(112, 15, 1200, true, true);
+gyroTurn(-45,0,1100);
 
 //COORDINATE FRAME #4 STARTS HERE
 localizePosOnCorner();
+MoveToPosition(40, 40, 3000, true);
+MoveToPosition(5, 5, 1000, true);
 // waitForButton();
 // localizeAngleOnCorner();
 // waitForButton();
-shoot2descore2(); // goal 3
+
+shoot2descore2(); //goal 7
 setIntakeSpeed(-127);
 pros::Task task7{[=] {
-			pros::delay(400);
-			intakeAllBackward();
-}};
-
-waitForButton();
-shoot2descore2(); // goal 7
-setIntakeSpeed(-127);
-pros::Task task8{[=] {
 			pros::delay(400);
 			intakeAllBackward();
 }};
@@ -307,13 +303,14 @@ pros::Task task8{[=] {
 MoveToPosition(16, 16, 1000, true, false);
 gyroTurn(0,0,1200);
 intakeButDontShoot();
-MoveToPosition(64, 24, 2000, true, false); // ball before goal 8
+MoveToPosition(66, 42.5, 6000, true, false); // ball before goal 8
 
-gyroTurn(-85,0,900);
+gyroTurn(-90,0,900);
 
-MoveToPosition(65, 13, 1500, true, true);
-waitForButton();
-shoot1descore1();		//goal 8
+MoveToPosition(65, 5, 2500, true, true);
+// waitForButton();
+shoot2descore1();		//goal 8
+
 pros::Task task9{[=] {
 			pros::delay(600);
 			intakeAllBackward();
@@ -322,6 +319,8 @@ MoveToPosition(65, 22, 800, true, false);
 
 intakeAllStop();
 }
+
+
 void startIndexingTask(int time, bool intakesOn) {
 	pros::delay(time);
 	pros::Task ballIndexingTask{[=] {
@@ -706,7 +705,7 @@ void gyroTurn(float target, int accuracy, int time, bool precise) {
 
 				referenceAngle = odom.getAngle();
 		}
-		float drive = pidCalculate(&gyroPID, target,referenceAngle);
+		float drive = pidCalculate(gyroPID, target,referenceAngle);
 	//	drive = slewRateCalculate(drive);
 	//	drive = ((fabs(gyro.get_value()/10.0-target)>180)? -1 : 1)*drive;
 	frontLeft.move(-drive);
