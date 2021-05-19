@@ -57,7 +57,8 @@ void Odometry::PrintData(void)
     // pros::lcd::print(4, "TurnPower: %.3f", lineController->calcTurnSpeed());
     // pros::lcd::print(5, "Raw Error: %.3f", lineController->debugError);
     pros::lcd::print(6, "Millis(): %d", pros::millis());
-    pros::lcd::print(7, "SL: %d  SR: %d", ultrasonicL.get_value(),ultrasonicR.get_value());
+    // pros::lcd::print(7, "SL: %d  SR: %d", ultrasonicL.get_value(),ultrasonicR.get_value());
+    pros::lcd::print(7,"Odom: %.2f    IMU: %.2f",getAngle(),imu_sensor.get_heading());
 
 }
 

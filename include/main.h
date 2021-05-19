@@ -107,6 +107,8 @@ extern pros::ADIUltrasonic ultrasonicR;
 extern pros::ADIButton leftBumper;
 extern pros::ADIButton rightBumper;
 
+extern pros::Imu imu_sensor;
+
 
 double flywheelCalculate(double target);
 void setDrivePower(int forwardPower, int turnPower);

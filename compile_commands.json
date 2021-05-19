@@ -61,11 +61,11 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/odometry.cpp.o",
-            "src/odometry.cpp"
+            "bin/opcontrol.cpp.o",
+            "src/opcontrol.cpp"
         ],
         "directory": "/Users/kohmeikadoya/Desktop/CU2021_15_Robot",
-        "file": "src/odometry.cpp"
+        "file": "src/opcontrol.cpp"
     },
     {
         "arguments": [
@@ -163,10 +163,10 @@
             "-funwind-tables",
             "--std=gnu++17",
             "-o",
-            "bin/opcontrol.cpp.o",
-            "src/opcontrol.cpp"
+            "bin/odometry.cpp.o",
+            "src/odometry.cpp"
         ],
         "directory": "/Users/kohmeikadoya/Desktop/CU2021_15_Robot",
-        "file": "src/opcontrol.cpp"
+        "file": "src/odometry.cpp"
     }
 ]

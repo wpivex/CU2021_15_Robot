@@ -61,6 +61,8 @@ pros::ADIDigitalIn rightBumper({{ADI_EXPANDER_SMART_PORT,'f'}});
 pros::ADIDigitalOut deploy('H');
 
 // pros::ADIGyro gyro('G' , 0.96);
+const int IMU_PORT = 15;
+pros::Imu imu_sensor(IMU_PORT);
 
 //Initialize pointer to zero so that it can be initialized in first call to getInstance
 LineTrack *LineTrack::instance = 0;
@@ -89,6 +91,8 @@ void setLeftPower(int forwardPower) {
 }
 
 void initialize() {
+	imu_sensor.reset();
+
 	deploy.set_value(false);
 	pros::lcd::initialize();
 	pros::lcd::set_text(4, "In Initialize");
