@@ -37,3 +37,5 @@
 include/.DS_Store
 compile_commands.json
 compile_commands.json
+compile_commands.json
+*.json

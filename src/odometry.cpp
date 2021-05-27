@@ -45,6 +45,7 @@ void Odometry::Stop(void)
 
 void Odometry::PrintData(void)
 {
+    float theta2 = 0.0;
     pros::lcd::print(0, "X: %.2f \t Y: %.2f \t T: %.2f", x, y, getAngle());
     controller.print(0,0, "(%3.0f,%3.0f) T:%3.1f", x, y, getAngle());
 
@@ -58,7 +59,16 @@ void Odometry::PrintData(void)
     // pros::lcd::print(5, "Raw Error: %.3f", lineController->debugError);
     pros::lcd::print(6, "Millis(): %d", pros::millis());
     // pros::lcd::print(7, "SL: %d  SR: %d", ultrasonicL.get_value(),ultrasonicR.get_value());
-    pros::lcd::print(7,"Odom: %.2f    IMU: %.2f",getAngle(),imu_sensor.get_heading());
+
+    theta2 = imu_sensor.get_heading() * -(M_PI/180.0);
+    if (theta2 > M_PI) {
+        theta2 -= 2*M_PI;
+    }
+    else if (theta2<-M_PI) {
+        theta2 += 2*M_PI;
+    }
+    theta2 = theta2 * (180/M_PI);
+    pros::lcd::print(7,"Odom: %.2f    IMU: %.2f",getAngle(),theta2);
 
 }
 
@@ -80,8 +90,10 @@ void Odometry::UpdatePose()
 {
     //Serial.println(velocity_left);
     time_now = pros::millis();
-    if(time_now - time_prev >= 3) //update every 50ms for practical reasons
+    if(time_now - time_prev >= 5) //update every 50ms for practical reasons
     {
+        // theta = imu_sensor.get_heading() * (M_PI/180.0);
+        theta = imu_sensor.get_heading() * -(M_PI/180.0);
         float deltaTime = (time_now - time_prev) / 1000.0;
 
         float velocity_left = ((leftEncoder.get_value() - leftEncoderPrev)/deltaTime) * (3.25 * M_PI) / 1024.0;
@@ -111,7 +123,7 @@ void Odometry::UpdatePose()
 
             x = x - r*sin(theta) + r*sin(theta + omega*deltaTime);// + velocity_back * sin(theta + omega*deltaTime) * deltaTime;
             y = y + r*cos(theta) - r*cos(theta + omega*deltaTime);// + velocity_back * cos(theta + omega*deltaTime) * deltaTime;
-            theta += omega*deltaTime;
+            // theta += omega*deltaTime;
         }
         if (theta > M_PI) {
             theta -= 2*M_PI;

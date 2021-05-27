@@ -20,6 +20,7 @@
 int side = 1;
 void autonomous() {
 	// deploy.set_value(0);
+	imu_sensor.reset();
 	odom.Init();
 	//start the task for updating pose on the display;
 	pros::Task odomTask(odomTaskFn);
@@ -48,7 +49,8 @@ void autonomous() {
 	// pros::delay(2000); //TODO: Take this out soon!
 
 
-	odom.tarePosition();
+	// odom.tarePosition();
+	pros::delay(2000);
 
 	//programmingSkills();
 	deploy.set_value(true);
@@ -87,46 +89,46 @@ void localizePosOnCorner(){
 	stop();
 	pros::delay(100);
 	odom.setAngleDegrees(odom.getAngle()-90);
-
-	const int NUMBER_OF_SAMPLES = 4;
-
-	std::vector<int> leftVals(NUMBER_OF_SAMPLES);
-	std::vector<int> rightVals(NUMBER_OF_SAMPLES);
-	for(int i = 0; i < NUMBER_OF_SAMPLES; i++){
-		//25.4 is mm -> inches
-		leftVals[i] = ultrasonicL.get_value()/25.4;
-		rightVals[i] = ultrasonicR.get_value()/25.4;
-		pros::delay(51);
-	}
-
-	odom.setY(findMedian(leftVals, NUMBER_OF_SAMPLES));
-	odom.setX(findMedian(rightVals, NUMBER_OF_SAMPLES));
+	//
+	// const int NUMBER_OF_SAMPLES = 4;
+	//
+	// std::vector<int> leftVals(NUMBER_OF_SAMPLES);
+	// std::vector<int> rightVals(NUMBER_OF_SAMPLES);
+	// for(int i = 0; i < NUMBER_OF_SAMPLES; i++){
+	// 	//25.4 is mm -> inches
+	// 	leftVals[i] = ultrasonicL.get_value()/25.4;
+	// 	rightVals[i] = ultrasonicR.get_value()/25.4;
+	// 	pros::delay(51);
+	// }
+	//
+	// odom.setY(findMedian(leftVals, NUMBER_OF_SAMPLES));
+	// odom.setX(findMedian(rightVals, NUMBER_OF_SAMPLES));
 }
 
 void localizeAngleOnCorner(){
-	stop();
-	pros::delay(200);
-
-	const int NUMBER_OF_SAMPLES = 5;
-
-	std::vector<int> leftVals(NUMBER_OF_SAMPLES);
-	std::vector<int> rightVals(NUMBER_OF_SAMPLES);
-	for(int i = 0; i < NUMBER_OF_SAMPLES; i++){
-		//25.4 is mm -> inches
-		leftVals[i] = ultrasonicL.get_value()/25.4;
-		rightVals[i] = ultrasonicR.get_value()/25.4;
-		pros::delay(51);
-	}
-
-	float y = (findMedian(leftVals, NUMBER_OF_SAMPLES));
-	float x = (findMedian(rightVals, NUMBER_OF_SAMPLES));
-
-	float angleRad = atanf(y/x);
-	float angleDeg = angleRad*180/M_PI;
-
-	angleDeg = -180 + angleDeg;
-
-	odom.setAngleDegrees(angleDeg);
+	// stop();
+	// pros::delay(200);
+	//
+	// const int NUMBER_OF_SAMPLES = 5;
+	//
+	// std::vector<int> leftVals(NUMBER_OF_SAMPLES);
+	// std::vector<int> rightVals(NUMBER_OF_SAMPLES);
+	// for(int i = 0; i < NUMBER_OF_SAMPLES; i++){
+	// 	//25.4 is mm -> inches
+	// 	leftVals[i] = ultrasonicL.get_value()/25.4;
+	// 	rightVals[i] = ultrasonicR.get_value()/25.4;
+	// 	pros::delay(51);
+	// }
+	//
+	// float y = (findMedian(leftVals, NUMBER_OF_SAMPLES));
+	// float x = (findMedian(rightVals, NUMBER_OF_SAMPLES));
+	//
+	// float angleRad = atanf(y/x);
+	// float angleDeg = angleRad*180/M_PI;
+	//
+	// angleDeg = -180 + angleDeg;
+	//
+	// odom.setAngleDegrees(angleDeg);
 }
 
 void odomProgrammingSkills() {
