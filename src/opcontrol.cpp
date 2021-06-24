@@ -12,8 +12,8 @@ void opcontrol() {
 		// pros::lcd::print(2, "Back Encoder: %d", backEncoder.get_value());
 
 
-		double left = controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);
-		double right = -controller.get_analog(ANALOG_RIGHT_X)*0.7+controller.get_analog(ANALOG_RIGHT_Y);
+		double left = controller.get_analog(ANALOG_RIGHT_X)*1+controller.get_analog(ANALOG_RIGHT_Y);
+		double right = -controller.get_analog(ANALOG_RIGHT_X)*1+controller.get_analog(ANALOG_RIGHT_Y);
 		frontLeft.move(left);
 	  	middleLeft.move(left);
 		backLeft.move(left);
